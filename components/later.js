@@ -37,7 +37,7 @@ function HeaderComponent() {
   );
 }
 
-export default HeaderComponent;
+// export default HeaderComponent;
 
 // Styles
 const HeaderBox = styled(Box)(({ theme }) => ({
