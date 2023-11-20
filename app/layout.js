@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Habuli",
