@@ -1,5 +1,9 @@
 "use client";
 import { createContext, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 export const ParentContext = createContext({ user: {} });
 
@@ -8,7 +12,12 @@ export const ContextProvider = ({ children }) => {
 
   return (
     <ParentContext.Provider value={{ user, setUser }}>
-      {children}
+      <QueryClientProvider client={queryClient}>
+        <>
+          {children}
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+        </>
+      </QueryClientProvider>
     </ParentContext.Provider>
   );
 };

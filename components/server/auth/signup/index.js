@@ -107,7 +107,7 @@ function SignupComponent() {
             Already have an account?{" "}
             <Link
               component={NextLink}
-              href={"/auth/login"}
+              href={"auth/login"}
               sx={{ textDecoration: "none" }}
             >
               Sign in
