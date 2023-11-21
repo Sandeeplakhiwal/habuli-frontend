@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Container, Divider, Link, Typography } from "@mui/material";
 import NextLink from "next/link";
 import ForgotPasswordForm from "@/components/client/forgotPasswordForm";
-import CountDown from "@/components/templates/timer/countDown";
+import ResetPasswordForm from "@/components/client/resetPasswordForm";
 
-function ForgotPasswordComponent() {
+function ResetPasswordComponent() {
   return (
     <Box
       sx={{
@@ -27,16 +27,30 @@ function ForgotPasswordComponent() {
           }}
         >
           <Typography variant="h5" component={Box} fontWeight={"bold"}>
-            Password Assistance
+            Reset Password
           </Typography>
           <Typography variant={"subtitle2"} pt={"0.5rem"}>
-            Enter the email address associated with your Habuli account
+            To reset password enter new password and make sure to note down or
+            save it somewhere, so that you can visit our site again without any
+            hustle.
           </Typography>
-          <ForgotPasswordForm />
+          <ResetPasswordForm />
+          <Divider />
+          <Typography paddingTop={"1rem"}>
+            Token expired?{" "}
+            <Link
+              component={NextLink}
+              href={"/auth/password/forgot"}
+              sx={{ textDecoration: "none" }}
+              //   paddingTop={"0.5rem"}
+            >
+              request again
+            </Link>
+          </Typography>
         </Box>
       </Container>
     </Box>
   );
 }
 
-export default ForgotPasswordComponent;
+export default ResetPasswordComponent;

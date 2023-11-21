@@ -1,17 +1,28 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Typography, Link, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Link,
+  Stack,
+  Divider,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { forgotPasswordSchema } from "@/schema/auth";
 import toast from "react-hot-toast";
 import { forgotPasswordApi } from "@/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
+import CountDown from "@/components/templates/timer/countDown";
 
 function ForgotPasswordForm() {
   const initialValues = {
     email: "",
   };
+
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
@@ -31,16 +42,28 @@ function ForgotPasswordForm() {
     mutateAsync(values);
   };
 
+  const startTimer = () => {
+    setIsTimerRunning(true);
+  };
+  const closeTimer = () => {
+    setIsTimerRunning(false);
+  };
+
   useEffect(() => {
     if (data && isSuccess) {
       console.log(data);
       toast.success(data?.data.message);
+      closeTimer();
       //   redirect("/");
     }
     if (error) {
       toast.error(error.response.data.error);
+      closeTimer();
     }
-  }, [data, isSuccess, error]);
+    if (isPending) {
+      startTimer();
+    }
+  }, [data, isSuccess, error, isPending]);
 
   return (
     <form
@@ -73,6 +96,20 @@ function ForgotPasswordForm() {
       <Button variant={"contained"} type="submit" onClick={handleSubmit}>
         Continue
       </Button>
+      {/*       {isTimerRunning ? (
+        <>
+          <Divider sx={{ marginTop: "1rem", marginBottom: "1rem" }} />
+          <Typography variant={"caption"} color={"secondary"}>
+            Request again in{" "}
+            {
+              <CountDown
+                isTimerRunning={isTimerRunning}
+                setIsTimerRunning={setIsTimerRunning}
+              />
+            }
+          </Typography>
+        </>
+      ) : null} */}
     </form>
   );
 }

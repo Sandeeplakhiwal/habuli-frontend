@@ -1,0 +1,133 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { Box, Button, TextField, Typography, Link, Stack } from "@mui/material";
+import { useFormik } from "formik";
+import { resetPasswordSchema } from "@/schema/auth";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import toast from "react-hot-toast";
+import { resetPasswordApi } from "@/api/user";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+
+function ResetPasswordForm() {
+  const params = useParams();
+
+  const initialValues = {
+    password: "",
+    confirmPassword: "",
+  };
+
+  const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
+    useFormik({
+      initialValues,
+      validationSchema: resetPasswordSchema,
+      onSubmit: (values, action) => {
+        submitHandler(values);
+        action.resetForm();
+      },
+    });
+
+  const { data, error, isSuccess, isPending, mutateAsync } = useMutation({
+    mutationFn: resetPasswordApi,
+  });
+
+  const submitHandler = async (values) => {
+    const formData = { password: values.password, token: params.token };
+    console.log(formData);
+    mutateAsync(formData);
+  };
+
+  useEffect(() => {
+    if (data && isSuccess) {
+      console.log(data);
+      toast.success(data?.data.message);
+      //   redirect("/");
+    }
+    if (error) {
+      toast.error(error.response.data.error);
+    }
+  }, [data, isSuccess, error]);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <form
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        paddingTop: "1rem",
+      }}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+        <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
+          Password
+        </label>
+        <TextField
+          hiddenLabel
+          variant={"outlined"}
+          size="small"
+          placeholder="Atleast 6 characters"
+          type={showPassword ? "text" : "password"}
+          name="password"
+          id="password"
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.password && touched.password ? (
+          <Typography variant={"caption"} color={"red"}>
+            {errors.password}
+          </Typography>
+        ) : (
+          <Button
+            sx={{
+              height: "15px",
+              textTransform: "capitalize",
+              width: 150,
+              marginTop: "10px",
+            }}
+            startIcon={showPassword ? <VisibilityOff /> : <Visibility />}
+            onClick={handleClickShowPassword}
+            onMouseDown={handleMouseDownPassword}
+          >
+            {showPassword ? "Hide password" : "Show password"}
+          </Button>
+        )}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+        <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
+          Confirm Password
+        </label>
+        <TextField
+          hiddenLabel
+          variant={"outlined"}
+          size="small"
+          placeholder="Verify your password"
+          type={"password"}
+          name="confirmPassword"
+          id="confirmPassword"
+          value={values.confirmPassword}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.confirmPassword && touched.confirmPassword ? (
+          <Typography variant={"caption"} color={"red"}>
+            {errors.confirmPassword}
+          </Typography>
+        ) : null}
+      </Box>
+      <Button variant={"contained"} type="submit" onClick={handleSubmit}>
+        Reset
+      </Button>
+    </form>
+  );
+}
+
+export default ResetPasswordForm;

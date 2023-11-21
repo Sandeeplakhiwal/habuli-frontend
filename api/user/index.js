@@ -27,3 +27,17 @@ export const forgotPasswordApi = (formData) => {
     withCredentials: true,
   });
 };
+
+export const resetPasswordApi = (data) => {
+  const { password, token } = data;
+  return axios.put(
+    `${server}/password/reset/${token}`,
+    { password },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
+};

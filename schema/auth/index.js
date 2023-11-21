@@ -14,3 +14,11 @@ export const SignupSchema = Yup.object({
 export const forgotPasswordSchema = Yup.object({
   email: Yup.string().email().required("Please enter your email"),
 });
+
+export const resetPasswordSchema = Yup.object({
+  password: Yup.string().required("Please enter your password"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Password must match"
+  ),
+});
