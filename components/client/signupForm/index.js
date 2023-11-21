@@ -1,17 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Typography, Link, Stack } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { loginSchema } from "@/schema/auth";
+import { SignupSchema, loginSchema } from "@/schema/auth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import toast from "react-hot-toast";
-import { loginApi } from "@/api/user";
+import { loginApi, signupApi } from "@/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
-import NextLink from "next/link";
 
 function LoginForm() {
   const initialValues = {
+    name: "",
+    phoneNo: "",
     email: "",
     password: "",
   };
@@ -19,16 +20,15 @@ function LoginForm() {
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
       initialValues,
-      validationSchema: loginSchema,
+      validationSchema: SignupSchema,
       onSubmit: (values, action) => {
-        console.log(values);
         submitHandler(values);
         action.resetForm();
       },
     });
 
   const { data, error, isSuccess, isPending, mutateAsync } = useMutation({
-    mutationFn: loginApi,
+    mutationFn: signupApi,
   });
 
   const submitHandler = async (values) => {
@@ -38,7 +38,7 @@ function LoginForm() {
   useEffect(() => {
     if (data && isSuccess) {
       console.log(data);
-      toast.success("Logged in successfully");
+      toast.success("Registered successfully");
       redirect("/");
     }
     if (error) {
@@ -64,6 +64,50 @@ function LoginForm() {
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+        <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
+          Your name
+        </label>
+        <TextField
+          hiddenLabel
+          type={"text"}
+          variant={"outlined"}
+          size="small"
+          name="name"
+          id="name"
+          value={values.name}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="First and last name"
+        />
+        {errors.name && touched.name ? (
+          <Typography variant={"caption"} color={"red"}>
+            {errors.name}
+          </Typography>
+        ) : null}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+        <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
+          Mobile number <span>(optional)</span>
+        </label>
+        <TextField
+          hiddenLabel
+          type={"text"}
+          variant={"outlined"}
+          size="small"
+          name="phoneNo"
+          id="phoneNo"
+          value={values.phoneNo}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="Mobile number"
+        />
+        {errors.phoneNo && touched.phoneNo ? (
+          <Typography variant={"caption"} color={"red"}>
+            {errors.phoneNo}
+          </Typography>
+        ) : null}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
         <label style={{ fontWeight: 550, letterSpacing: "1px" }}>Email</label>
         <TextField
           hiddenLabel
@@ -83,24 +127,9 @@ function LoginForm() {
         ) : null}
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
-        <Stack direction={"row"} useFlexGap justifyContent={"space-between"}>
-          <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
-            Password
-          </label>
-          <Link
-            variant={"text"}
-            component={NextLink}
-            href={"/auth/password/forgot"}
-            sx={{
-              textDecoration: "none",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-          >
-            Forgot Password
-          </Link>
-        </Stack>
+        <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
+          Password
+        </label>
         <TextField
           hiddenLabel
           variant={"outlined"}
@@ -134,7 +163,7 @@ function LoginForm() {
         )}
       </Box>
       <Button variant={"contained"} type="submit" onClick={handleSubmit}>
-        Sign in
+        Sign up
       </Button>
     </form>
   );

@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Divider, Link, Typography } from "@mui/material";
 import NextLink from "next/link";
+import SignupForm from "@/components/client/signupForm";
 
 function SignupComponent() {
   return (
@@ -16,6 +9,7 @@ function SignupComponent() {
       sx={{
         minHeight: "80vh",
         padding: { md: "0 30%", xs: 0 },
+        minWidth: "320px",
       }}
     >
       <Container
@@ -27,7 +21,6 @@ function SignupComponent() {
       >
         <Box
           sx={{
-            // backgroundColor: "lightblue",
             borderRadius: "5px",
             padding: "1rem",
             border: "1px solid #6D258E",
@@ -36,78 +29,13 @@ function SignupComponent() {
           <Typography variant="h5" component={Box}>
             Create Account
           </Typography>
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              paddingTop: "1rem",
-            }}
-          >
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}
-            >
-              <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
-                Your name
-              </label>
-              <TextField
-                hiddenLabel
-                id="filled-hidden-label-small"
-                variant={"outlined"}
-                size="small"
-                placeholder="First and last name"
-              />
-            </Box>
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}
-            >
-              <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
-                Mobile number <span>(optional)</span>
-              </label>
-              <TextField
-                hiddenLabel
-                id="filled-hidden-label-small"
-                // defaultValue="Small"
-                variant={"outlined"}
-                size="small"
-                placeholder="Mobile number"
-              />
-            </Box>
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}
-            >
-              <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
-                Email
-              </label>
-              <TextField
-                hiddenLabel
-                id="filled-hidden-label-small"
-                variant={"outlined"}
-                size="small"
-              />
-            </Box>
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}
-            >
-              <label style={{ fontWeight: 550, letterSpacing: "1px" }}>
-                Password
-              </label>
-              <TextField
-                hiddenLabel
-                // id="filled-hidden-label-small"
-                variant={"outlined"}
-                size="small"
-                placeholder="Atleast 6 characters"
-              />
-            </Box>
-            <Button variant={"contained"}>Sign up</Button>
-          </form>
+          <SignupForm />
           <Divider />
           <Typography paddingTop={"1rem"}>
             Already have an account?{" "}
             <Link
               component={NextLink}
-              href={"auth/login"}
+              href={"/auth/login"}
               sx={{ textDecoration: "none" }}
             >
               Sign in
