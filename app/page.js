@@ -1,6 +1,6 @@
-import Image from "next/image";
 import styles from "./page.module.css";
+import HomeComponent from "@/components/server/home";
 
 export default function Home() {
-  return <h1>Habuli ecommerce frontend</h1>;
+  return <HomeComponent />;
 }

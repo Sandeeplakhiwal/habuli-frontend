@@ -57,7 +57,11 @@ function ForgotPasswordForm() {
       //   redirect("/");
     }
     if (error) {
-      toast.error(error.response.data.error);
+      toast.error(
+        error.message == "Network Error"
+          ? "Please connect with internet"
+          : error?.response?.data.error
+      );
       closeTimer();
     }
     if (isPending) {

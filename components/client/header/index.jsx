@@ -52,13 +52,17 @@ function HeaderComponent() {
           flex={1}
           justifyContent={"right"}
         >
-          <NavButton color="inherit">
-            Become a <NavSpan>Influencer</NavSpan>
-          </NavButton>
-          <NavButton color="inherit">
-            <AccountIcon />
-            <NavSpan>Account</NavSpan>
-          </NavButton>
+          <CustomLink component={NextLink} href="/auth/signup">
+            <NavButton color="inherit">
+              Become a <NavSpan>Influencer</NavSpan>
+            </NavButton>
+          </CustomLink>
+          <CustomLink component={NextLink} href={"/auth/login"}>
+            <NavButton color="inherit">
+              <AccountIcon />
+              <NavSpan>Account</NavSpan>
+            </NavButton>
+          </CustomLink>
           <NavButton color="inherit">
             <Badge badgeContent={4} color="badgeColor">
               <CartIcon sx={{ fontSize: "30px" }} />
@@ -107,7 +111,11 @@ function HeaderComponent() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link component={NextLink} href={"/auth/login"}>
+            Profile
+          </Link>
+        </MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
       </Menu>
     </AppBar>
@@ -208,6 +216,14 @@ const NavButton = styled(Button)(({ theme }) => ({
   flexDirection: "column",
   textTransform: "capitalize",
   gap: 0,
+}));
+const CustomLink = styled(Link)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  textTransform: "capitalize",
+  gap: 0,
+  textDecoration: "none",
+  color: "#fff",
 }));
 const NavSpan = styled("span")(({ theme }) => ({
   fontSize: "14px",
