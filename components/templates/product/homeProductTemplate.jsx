@@ -10,7 +10,7 @@ function HomeProductTemplate() {
     <CustomContainerBox>
       <Link
         component={NextLink}
-        href="/"
+        href="/products/category/electronics"
         sx={{ textDecoration: "none", color: "black" }}
       >
         <ImageWrapper>

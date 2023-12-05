@@ -41,6 +41,7 @@ const ProductsCarousel = ({ title }) => {
           minWidth: "320px",
           mt: "4rem",
           mb: "1rem",
+          pb: 4,
           backgroundColor: "white",
           display: { sm: "none", md: "block", xs: "none" },
         }}

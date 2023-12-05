@@ -12,11 +12,17 @@ import {
 import styled from "@emotion/styled";
 import Image from "next/image";
 import NextLink from "next/link";
+import { useParams } from "next/navigation";
 
 function ListProductTemplate() {
+  const params = useParams();
+  const slug = params.slug;
   return (
     <CustomStack direction={"row"}>
-      <CustomWrapperLink component={NextLink} href={"/"}>
+      <CustomWrapperLink
+        component={NextLink}
+        href={`${slug}/item/fndjafnie4123rnwejrn234u`}
+      >
         <ImageBox>
           <Image
             src={
@@ -28,11 +34,14 @@ function ListProductTemplate() {
           />
         </ImageBox>
         <ProductDetailBox>
-          <CustomLink component={NextLink} href={"/"}>
+          <CustomLink
+            component={NextLink}
+            href={`${slug}/item/fndjafnie4123rnwejrn234u`}
+          >
             Sony Alpha Full Frame ILCE-7M2K/BQ IN5 Mirrorless Camera Body with
             28 - 70 mm Lens
           </CustomLink>
-          <ReviewsTypography>4* 1303-ratings & 160 reviews</ReviewsTypography>
+          <ReviewsTypography>4★ 1303-ratings & 160 reviews</ReviewsTypography>
           <ProductDetailUL>
             <PruductDetailList>
               <ProductDetailTypo>
