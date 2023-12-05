@@ -1,1 +1,1 @@
-export const server = `http://localhost:4000/api/v1`;
+export const server = `https://habuli-server.onrender.com/api/v1`;
