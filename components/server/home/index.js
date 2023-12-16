@@ -10,6 +10,7 @@ import slider5 from "@/public/slider5.webp";
 import slider6 from "@/public/slider6.webp";
 import slider7 from "@/public/slider7.webp";
 import ProductsCarousel from "@/components/templates/caraousel/productsCarousel";
+import HomeProductsCarouselWrapper from "@/components/client/homeCarouselsWrapper";
 
 const Images = [
   {
@@ -34,10 +35,7 @@ function HomeComponent() {
   return (
     <Box>
       <HeroCaraousel images={Images} />
-      <ProductsCarousel title={"Best of electronics"} />
-      <ProductsCarousel title={"Best of electronics"} />
-      <ProductsCarousel title={"Best of electronics"} />
-      <ProductsCarousel title={"Best of electronics"} />
+      <HomeProductsCarouselWrapper />
     </Box>
   );
 }

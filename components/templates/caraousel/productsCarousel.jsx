@@ -6,8 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import { Box, Container, Link, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import HomeProductTemplate from "../product/homeProductTemplate";
+import { useQuery } from "@tanstack/react-query";
+import { getCategoryProductsApi } from "@/api/product";
 
-const ProductsCarousel = ({ title }) => {
+const ProductsCarousel = ({ title, productsData }) => {
+  console.log("ProductsData", productsData);
   const mdSliderSettings = {
     dots: false,
     infinite: false,
@@ -56,36 +59,11 @@ const ProductsCarousel = ({ title }) => {
           {title}
         </Typography>
         <Carousel {...mdSliderSettings}>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
+          {productsData?.data?.products?.map((i) => (
+            <Wrap>
+              <HomeProductTemplate product={i} />
+            </Wrap>
+          ))}
         </Carousel>
       </Container>
       <Container
@@ -108,36 +86,11 @@ const ProductsCarousel = ({ title }) => {
           {title}
         </Typography>
         <Carousel {...smSliderSettings}>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
+          {productsData?.data?.products?.map((item) => (
+            <Wrap>
+              <HomeProductTemplate product={item} />
+            </Wrap>
+          ))}
         </Carousel>
       </Container>
       <Container
@@ -154,36 +107,11 @@ const ProductsCarousel = ({ title }) => {
           {title}
         </Typography>
         <Carousel {...xsSliderSettings}>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
-          <Wrap>
-            <HomeProductTemplate product={product} />
-          </Wrap>
+          {productsData?.data?.products?.map((i) => (
+            <Wrap>
+              <HomeProductTemplate product={i} />
+            </Wrap>
+          ))}
         </Carousel>
       </Container>
     </>
