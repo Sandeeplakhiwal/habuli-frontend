@@ -81,9 +81,9 @@ function AccountComponent() {
                   What happens when I update my email address?
                 </Typography>
                 <Typography variant="subtitle2" fontSize={12}>
-                  Your login email id (or mobile number) changes, likewise.
-                  You'll receive all your account related communication on your
-                  updated email address (or mobile number).
+                  Your login email id (or mobile number) changes, likewise. You
+                  &apos;ll receive all your account related communication on
+                  your updated email address (or mobile number).
                 </Typography>
               </li>
             </ul>

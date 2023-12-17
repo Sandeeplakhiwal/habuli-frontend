@@ -37,8 +37,8 @@ function OrderComponent() {
             </Search>
           </Box>
           {ordersData?.data?.orders?.length >= 1 ? (
-            ordersData?.data?.orders?.map((i) => (
-              <OrderProductTemplate order={i} />
+            ordersData?.data?.orders?.map((i, index) => (
+              <OrderProductTemplate key={index} order={i} />
             ))
           ) : (
             <Typography

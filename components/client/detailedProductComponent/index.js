@@ -194,7 +194,7 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
     if (reviewPostError) {
       toast.error(reviewPostError?.response?.data?.error);
     }
-  }, [reviewPostData, reviewPostIsSuccess, reviewPostError]);
+  }, [reviewPostData, reviewPostIsSuccess, reviewPostError, router]);
 
   return (
     <Box display={"flex"} flexDirection={"column"} gap={"0.5rem"}>
@@ -403,8 +403,9 @@ const ReviewsContainer = ({ product }) => {
   return (
     <CustomReviewsContainer>
       <Typography m={"1rem 0"}>Top Reviews</Typography>
-      {product?.reviews?.map((review) => (
+      {product?.reviews?.map((review, index) => (
         <SingleReviewBox
+          key={index}
           userName={review.name}
           rating={review.rating}
           reviewDate={"4-may-2004"}

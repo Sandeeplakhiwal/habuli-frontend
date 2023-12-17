@@ -17,6 +17,7 @@ import { server } from "@/redux/store";
 import { useParams, useRouter } from "next/navigation";
 import StarIcon from "@mui/icons-material/Star";
 import toast from "react-hot-toast";
+import Image from "next/image";
 // import Image from "next/image";
 
 const ratingLabels = {
@@ -101,7 +102,7 @@ function OrderProductTemplate({ order }) {
     if (reviewPostError) {
       toast.error(reviewPostError?.response?.data?.error);
     }
-  }, [reviewPostData, reviewPostIsSuccess, reviewPostError]);
+  }, [reviewPostData, reviewPostIsSuccess, reviewPostError, router]);
 
   return (
     <Box fontSize={14} padding={{ md: "0 2rem", xs: "0 10px" }} mb={2}>
@@ -115,7 +116,7 @@ function OrderProductTemplate({ order }) {
               alignItems={"center"}
               height={"100%"}
             >
-              <img
+              <Image
                 src={
                   "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
                 }

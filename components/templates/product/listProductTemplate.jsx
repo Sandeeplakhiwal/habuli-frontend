@@ -41,7 +41,8 @@ function ListProductTemplate({ product }) {
             {product?.name}
           </CustomLink>
           <ReviewsTypography>
-            {product?.ratings}★ {product?.reviews.length} ratings & reviews
+            {product?.ratings?.toFixed(1)}★ {product?.reviews.length} ratings &
+            reviews
           </ReviewsTypography>
           <ProductDetailUL>
             <PruductDetailList>
