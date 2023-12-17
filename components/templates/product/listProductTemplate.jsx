@@ -14,14 +14,14 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { useParams } from "next/navigation";
 
-function ListProductTemplate() {
+function ListProductTemplate({ product }) {
   const params = useParams();
   const slug = params.slug;
   return (
     <CustomStack direction={"row"}>
       <CustomWrapperLink
         component={NextLink}
-        href={`${slug}/item/fndjafnie4123rnwejrn234u`}
+        href={`${slug}/item/${product?._id}`}
       >
         <ImageBox>
           <Image
@@ -36,25 +36,16 @@ function ListProductTemplate() {
         <ProductDetailBox>
           <CustomLink
             component={NextLink}
-            href={`${slug}/item/fndjafnie4123rnwejrn234u`}
+            href={`${slug}/item/${product?._id}`}
           >
-            Sony Alpha Full Frame ILCE-7M2K/BQ IN5 Mirrorless Camera Body with
-            28 - 70 mm Lens
+            {product?.name}
           </CustomLink>
-          <ReviewsTypography>4★ 1303-ratings & 160 reviews</ReviewsTypography>
+          <ReviewsTypography>
+            {product?.ratings}★ {product?.reviews.length} ratings & reviews
+          </ReviewsTypography>
           <ProductDetailUL>
             <PruductDetailList>
-              <ProductDetailTypo>
-                4K/HD format, High-performance Fast Hybrid AF, Phase-detection
-                AF, The Sony full-frame advantage, BIONZ X?speed and precision
-                (High-speed processing faithfully reproduces textures and
-                details in real time, as seen by the naked eye), Expressive
-                moviemaking, Pro-quality XAVC S format, Meticulous
-                craftsmanship, Multi Frame NR (Noise Reduction), Anti-dust
-                system and coating, Meticulously crafted controls, Time code /
-                Clean HDMI output, Convenient tiltable LCD screen, WiFi &
-                NFC(One-touch remote and one-touch sharing)
-              </ProductDetailTypo>
+              <ProductDetailTypo>{product?.description}</ProductDetailTypo>
             </PruductDetailList>
             <PruductDetailList>
               <ProductDetailTypo>Effective Pixels: 24.3 MP</ProductDetailTypo>
@@ -74,7 +65,7 @@ function ListProductTemplate() {
           </ProductDetailUL>
         </ProductDetailBox>
         <ProductPriceBox>
-          <ProductPriceTypo variant={"h4"}>₹82990</ProductPriceTypo>
+          <ProductPriceTypo variant={"h4"}>₹{product?.price}</ProductPriceTypo>
         </ProductPriceBox>
       </CustomWrapperLink>
     </CustomStack>

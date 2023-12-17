@@ -5,12 +5,13 @@ import Image from "next/image";
 import React from "react";
 import NextLink from "next/link";
 
-function HomeProductTemplate() {
+function HomeProductTemplate({ product }) {
+  console.log("Product", product);
   return (
     <CustomContainerBox>
       <Link
         component={NextLink}
-        href="/products/category/electronics"
+        href={`/products/category/${product?.category}`}
         sx={{ textDecoration: "none", color: "black" }}
       >
         <ImageWrapper>
@@ -29,14 +30,14 @@ function HomeProductTemplate() {
             sx={{ opacity: "0.7" }}
             fontSize={{ xs: "12px", sm: "15px" }}
           >
-            Canon Camera
+            {product?.name}
           </Typography>
           <Typography
             variant={{ sm: "caption", md: "subtitle2" }}
             fontWeight={"bold"}
             fontSize={{ xs: "12px", sm: "15px", md: "16px" }}
           >
-            From 2500 Rs
+            From {product?.price} Rs
           </Typography>
         </DetailWrapper>
       </Link>

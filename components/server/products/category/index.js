@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import ListProductTemplate from "@/components/templates/product/listProductTemplate";
 import FilterBar from "@/components/client/filterBar";
+import ListProductsWrapper from "@/components/client/listProductsWrapper";
 
 function CategoryProductsListComponent() {
   return (
@@ -10,11 +11,7 @@ function CategoryProductsListComponent() {
         <FilterBar />
       </Grid>
       <Grid item xs={9}>
-        <ListProductTemplate />
-        <ListProductTemplate />
-        <ListProductTemplate />
-        <ListProductTemplate />
-        <ListProductTemplate />
+        <ListProductsWrapper />
       </Grid>
     </Grid>
   );

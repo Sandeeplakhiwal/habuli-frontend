@@ -12,11 +12,18 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { deepOrange } from "@mui/material/colors";
 import StarIcon from "@mui/icons-material/Star";
+import axios from "axios";
+import { server } from "@/redux/store";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import { reviewSchema } from "@/schema/product";
+import toast from "react-hot-toast";
 
 const ratingLabels = {
   1: "Useless",
@@ -74,49 +81,121 @@ export const ProductActionButtonBox = () => {
   );
 };
 
-export const DetailsBoxContainer = () => {
+export const DetailsBoxContainer = ({ product }) => {
+  console.log("Check Product", product);
   return (
     <CustomDetailBoxContainer>
       <Typography variant={"subtitle1"} fontWeight={550} fontSize={18}>
-        SanDisk Ultra 128 GB MicroSDXC Class 10 140 MB/s Memory Card
+        {product?.name}
       </Typography>
       <Typography variant={"subtitle2"} color={"green"}>
-        4.1★{" "}
+        {product?.ratings?.toFixed(1)}★{" "}
         <Typography variant={"caption"} color={"black"} sx={{ opacity: 0.7 }}>
-          39,394 Ratings & 3008 Reviews
+          {product?.reviews.length} Ratings&Reviews
         </Typography>
       </Typography>
       <Typography fontWeight={"bold"} variant={"h5"}>
-        ₹890
+        ₹{product?.price}
       </Typography>
-      <Typography>Stock: 700</Typography>
+      <Typography>Stock: {product?.stock}</Typography>
       <Typography display={"flex"} flexDirection={"column"} mb={"10vh"}>
         About this item{" "}
         <Typography variant={"subtitle2"} pl={"1rem"}>
           <ul>
-            <li>For Camera, Computer, Gaming Console, Mobile, Tablet</li>
-            <li>Capacity: 128 GB</li>
-            <li>MicroSDXC</li>
-            <li>Class 10</li>
-            <li>Read Speed: 140 MB/s</li>
+            <li>{product?.description}</li>
           </ul>
         </Typography>
       </Typography>
-      <RatingsAndReviewSection />
+      <RatingsAndReviewSection
+        product={product}
+        productRating={product?.ratings}
+      />
     </CustomDetailBoxContainer>
   );
 };
 
-const RatingsAndReviewSection = () => {
-  const value = 4;
+const RatingsAndReviewSection = ({ product, productRating }) => {
+  const value = 0;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [hover, setHover] = React.useState(-1);
-  const [ratingValue, setRatingValue] = useState(0);
+  const [ratingValue, setRatingValue] = useState(2);
+  const [hover, setHover] = useState(-1);
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${ratingLabels[value]}`;
   }
+  const params = useParams();
+  const router = useRouter();
+  const initialValues = {
+    rating: 0,
+    comment: "",
+  };
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+  } = useFormik({
+    initialValues,
+    validationSchema: reviewSchema,
+    onSubmit: (values, action) => {
+      submitHandler(values);
+      action.resetForm();
+      setRatingValue(0);
+    },
+  });
+
+  console.log("Errors", errors);
+
+  const reviewPostApi = (formData) => {
+    return axios.post(`${server}/product/reviews/${params.pId}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+  };
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: reviewPostData,
+    error: reviewPostError,
+    isError: reviewPostIsError,
+    isLoading: reviewPostIsLoading,
+    isSuccess: reviewPostIsSuccess,
+    mutateAsync,
+  } = useMutation({
+    mutationFn: reviewPostApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["DetailedProduct"] });
+      router.refresh();
+    },
+  });
+
+  const submitHandler = async (values) => {
+    console.log("Values", values);
+    mutateAsync(values);
+  };
+
+  console.log("DATATA", reviewPostData);
+  console.log("Errror", reviewPostError);
+
+  useEffect(() => {
+    if (reviewPostData && reviewPostIsSuccess) {
+      toast.success("Review added successfully");
+      setOpen(false);
+      router.refresh();
+    }
+    if (reviewPostError) {
+      toast.error(reviewPostError?.response?.data?.error);
+    }
+  }, [reviewPostData, reviewPostIsSuccess, reviewPostError]);
+
   return (
     <Box display={"flex"} flexDirection={"column"} gap={"0.5rem"}>
       <Box
@@ -145,10 +224,20 @@ const RatingsAndReviewSection = () => {
         </Button>
       </Box>
       <Typography alignItems={"center"} display={"flex"} flexDirection={"row"}>
-        <Rating name="read-only" value={value} readOnly /> 4 out of 5
+        {productRating ? (
+          <Rating
+            name="read-only"
+            value={productRating}
+            precision={0.5}
+            readOnly
+          />
+        ) : (
+          <Rating name="read-only" value={0} readOnly />
+        )}{" "}
+        {product?.ratings?.toFixed(1)} out of 5
       </Typography>
       <Typography variant={"caption"} pl={"5px"}>
-        125 global ratings
+        {product?.reviews.length} global ratings&reviews
       </Typography>
       <CustomProgressBarBox>
         <Typography variant={"subtitle2"}>5 star</Typography>
@@ -247,10 +336,11 @@ const RatingsAndReviewSection = () => {
             <Rating
               name="hover-feedback"
               value={ratingValue}
-              size="large"
+              size={"large"}
               getLabelText={getLabelText}
               onChange={(event, newValue) => {
                 setRatingValue(newValue);
+                setFieldValue("rating", newValue);
               }}
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
@@ -260,9 +350,9 @@ const RatingsAndReviewSection = () => {
               }
             />
             {ratingValue !== null && (
-              <Typography>
+              <Box sx={{ ml: 2 }}>
                 {ratingLabels[hover !== -1 ? hover : ratingValue]}
-              </Typography>
+              </Box>
             )}
           </Box>
           <Box textAlign={"right"}>
@@ -270,54 +360,85 @@ const RatingsAndReviewSection = () => {
               Add a review
             </Typography>
             <TextField
-              id="outlined-multiline-static"
+              // id="outlined-multiline-static"
+              id="comment"
+              name="comment"
               multiline
               rows={4}
               fullWidth
               placeholder="Description..."
+              value={values.comment}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            <Button type="submit" variant={"contained"} sx={{ mt: 2 }}>
+            {errors.comment && touched.comment ? (
+              <Typography
+                variant={"subtitle2"}
+                textAlign={"left"}
+                fontSize={12}
+                color={"red"}
+                sx={{ paddingLeft: 1, paddingTop: 0.5 }}
+              >
+                {errors.comment}
+              </Typography>
+            ) : null}
+            <Button
+              type="submit"
+              variant={"contained"}
+              sx={{ mt: 2 }}
+              onClick={handleSubmit}
+              disabled={reviewPostIsLoading ? true : false}
+            >
               Submit
             </Button>
           </Box>
         </Box>
       </Modal>
-      <ReviewsContainer />
+      <ReviewsContainer product={product} />
     </Box>
   );
 };
 
-const ReviewsContainer = () => {
+const ReviewsContainer = ({ product }) => {
   return (
     <CustomReviewsContainer>
       <Typography m={"1rem 0"}>Top Reviews</Typography>
-      <SingleReviewBox />
-      <SingleReviewBox />
-      <SingleReviewBox />
+      {product?.reviews?.map((review) => (
+        <SingleReviewBox
+          userName={review.name}
+          rating={review.rating}
+          reviewDate={"4-may-2004"}
+          comment={review.comment}
+        />
+      ))}
     </CustomReviewsContainer>
   );
 };
 
-const SingleReviewBox = () => {
+const SingleReviewBox = ({ userName, rating, reviewDate, comment }) => {
   return (
     <CustomSingleReviewBox>
       <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1}>
         <Avatar sx={{ bgcolor: deepOrange[500], width: 24, height: 24 }}>
-          S
+          {userName.slice(0, 1)}
         </Avatar>
         <Typography fontSize={"13px"} color={"#007185"}>
-          Sandeep Lakhiwal
+          {userName}
         </Typography>
       </Box>
       <Box>
-        <Rating name="read-only" value={4} readOnly size="small" />
+        <Rating
+          name="read-only"
+          value={rating}
+          readOnly
+          size="small"
+          sx={{ mt: 0.5 }}
+        />
         <Typography color={"#007185"} fontSize={"12px"}>
           Reviewed on 1 December 2023
         </Typography>
         <Typography fontSize={13} letterSpacing={0.5} fontWeight={400}>
-          Although I have not fished a lot around, but I think this keyboard
-          provides the best value for money. I have been using it for about a
-          month now, and can say that I got what I was looking for.
+          {comment}
         </Typography>
       </Box>
     </CustomSingleReviewBox>

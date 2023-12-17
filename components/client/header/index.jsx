@@ -57,7 +57,7 @@ function HeaderComponent() {
               Become a <NavSpan>Influencer</NavSpan>
             </NavButton>
           </CustomLink>
-          <CustomLink component={NextLink} href={"/auth/login"}>
+          <CustomLink component={NextLink} href={"/account"}>
             <NavButton color="inherit">
               <AccountIcon />
               <NavSpan>Account</NavSpan>
@@ -112,11 +112,15 @@ function HeaderComponent() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Link component={NextLink} href={"/auth/login"}>
-            Profile
+          <Link component={NextLink} href={"/account"}>
+            My Account
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link component={NextLink} href={"/auth/login"}>
+            Orders
+          </Link>
+        </MenuItem>
       </Menu>
     </AppBar>
   );

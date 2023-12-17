@@ -21,6 +21,9 @@ import React from "react";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styled from "@emotion/styled";
+import { useQuery } from "@tanstack/react-query";
+import { getFilteredProductsApi } from "@/api/product";
+import { useParams } from "next/navigation";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,6 +60,7 @@ function FilterBar() {
       typeof value === "string" ? value.split(",") : value
     );
   };
+
   return (
     <Box boxSizing={"border-box"} padding={1} bgcolor={"white"} mt="8px">
       <Stack direction={"column"} p={2} spacing={2}>
