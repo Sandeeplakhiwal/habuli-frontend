@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./slices/userSlice";
+import cartReducer from "./slices/cartSlice";
 
-const store = configureStore({
-  reducer: {},
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+  },
+  devTools: true,
 });
 
-export default store;
-
-export const server = `https://habuli-server.onrender.com/api/v1`;
-// export const server = `http://localhost:5000/api/v1`;
+export const server = "http://localhost:5000/api/v1";
+// export const server = "https://habuli-server.onrender.com";

@@ -11,10 +11,11 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React from "react";
 import { server } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { LoadUser } from "@/libs/fetch";
 
 function DetailedProductComponent() {
   const params = useParams();
-  console.log("PID", params.pId);
   const getDetailedProductApi = (pId) => {
     return axios.get(`${server}/product/${pId}`, {
       withCredentials: true,
@@ -24,7 +25,9 @@ function DetailedProductComponent() {
     queryKey: "DetailedProduct",
     queryFn: () => getDetailedProductApi(params.pId),
   });
-  console.log("DetailedProduct", data);
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <Grid
       container
@@ -34,6 +37,7 @@ function DetailedProductComponent() {
       pr={"4px"}
       bgcolor={"white"}
     >
+      {isAuthenticated ? null : <LoadUser />}
       <Grid item sm={1} xs={2}>
         <Grid item xs={12}>
           <ListImgComponent />

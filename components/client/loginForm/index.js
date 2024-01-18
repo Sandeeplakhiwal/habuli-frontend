@@ -9,8 +9,11 @@ import { loginApi } from "@/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 import NextLink from "next/link";
+import { useSelector, useDispatch } from "react-redux";
+import { loadUser } from "@/redux/slices/userSlice";
 
 function LoginForm() {
+  const dispatch = useDispatch();
   const initialValues = {
     email: "",
     password: "",
@@ -21,7 +24,6 @@ function LoginForm() {
       initialValues,
       validationSchema: loginSchema,
       onSubmit: (values, action) => {
-        console.log(values);
         submitHandler(values);
         action.resetForm();
       },
@@ -29,6 +31,9 @@ function LoginForm() {
 
   const { data, error, isSuccess, isPending, mutateAsync } = useMutation({
     mutationFn: loginApi,
+    onSuccess: (data) => {
+      dispatch(loadUser(data?.data?.user));
+    },
   });
 
   const submitHandler = async (values) => {
@@ -37,7 +42,6 @@ function LoginForm() {
 
   useEffect(() => {
     if (data && isSuccess) {
-      console.log(data);
       toast.success("Logged in successfully");
       redirect("/");
     }

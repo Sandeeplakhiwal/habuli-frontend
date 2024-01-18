@@ -1,8 +1,16 @@
 "use client";
 import { createContext, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { Provider as ReduxProvider, useDispatch } from "react-redux";
+import store from "@/redux/store";
+import { LoadUserApi } from "@/api/user";
+import { LoadUser } from "@/libs/fetch";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +24,7 @@ export const ContextProvider = ({ children }) => {
       <QueryClientProvider client={queryClient}>
         <>
           {children}
-          <Toaster position="top-right" reverseOrder="false" />
+          <Toaster position="top-right" reverseOrder={false} />
           <ReactQueryDevtools buttonPosition="bottom-left" />
         </>
       </QueryClientProvider>

@@ -6,7 +6,6 @@ import React from "react";
 import NextLink from "next/link";
 
 function HomeProductTemplate({ product }) {
-  console.log("Product", product);
   return (
     <CustomContainerBox>
       <Link

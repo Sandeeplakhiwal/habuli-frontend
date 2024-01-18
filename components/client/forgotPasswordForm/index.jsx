@@ -51,7 +51,6 @@ function ForgotPasswordForm() {
 
   useEffect(() => {
     if (data && isSuccess) {
-      console.log(data);
       toast.success(data?.data.message);
       closeTimer();
       //   redirect("/");

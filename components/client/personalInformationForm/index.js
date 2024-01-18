@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { LoadUser } from "@/libs/fetch";
+import { useSelector } from "react-redux";
 
 function PersonalInformationForm() {
   const [pIEClicked, setPieClicked] = useState(false);
   const [emailEditClicked, setEmailEditClicked] = useState(false);
   const personalInfoSaveHandler = () => {};
   const emailSaveHandler = () => {};
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <Box mt={2} p={1}>
+      {isAuthenticated ? null : <LoadUser />}
       <Typography alignItems={"center"}>
         Personal Information
         {pIEClicked ? (

@@ -24,6 +24,8 @@ import styled from "@emotion/styled";
 import { useQuery } from "@tanstack/react-query";
 import { getFilteredProductsApi } from "@/api/product";
 import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import { LoadUser } from "@/libs/fetch";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,8 +63,11 @@ function FilterBar() {
     );
   };
 
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <Box boxSizing={"border-box"} padding={1} bgcolor={"white"} mt="8px">
+      {isAuthenticated ? null : <LoadUser />}
       <Stack direction={"column"} p={2} spacing={2}>
         <Typography fontWeight={570}>Filters</Typography>
         <Divider />

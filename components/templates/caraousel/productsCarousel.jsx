@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategoryProductsApi } from "@/api/product";
 
 const ProductsCarousel = ({ title, productsData }) => {
-  console.log("ProductsData", productsData);
   const mdSliderSettings = {
     dots: false,
     infinite: false,

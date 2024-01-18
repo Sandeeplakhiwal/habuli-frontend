@@ -21,6 +21,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import NextLink from "next/link";
 import PersonalInformationForm from "@/components/client/personalInformationForm";
+import { useSelector } from "react-redux";
+import { UserAccountNameChit } from "@/components/client/account";
 
 function AccountComponent() {
   return (
@@ -36,18 +38,7 @@ function AccountComponent() {
           bgcolor={"white"}
           mb={1}
         >
-          <Avatar sx={{ bgcolor: deepPurple[500] }}>S</Avatar>
-          <Typography
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"left"}
-            variant={"subtitle2"}
-          >
-            <Typography variant={"caption"} mb={-0.5} fontSize={11}>
-              Hello,
-            </Typography>
-            Sandeep Lakhiwal
-          </Typography>
+          <UserAccountNameChit />
         </Box>
       </Grid>
       <Grid item xs={12} sm={7} md={8} bgcolor={"white"}>

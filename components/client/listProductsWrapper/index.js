@@ -17,7 +17,6 @@ function ListProductsWrapper() {
     queryKey: "ListProducts",
     queryFn: () => getFilteredProductsApi(params.slug),
   });
-  console.log("ListProducts", data);
   return (
     <>
       {data?.data?.products?.map((product, index) => (

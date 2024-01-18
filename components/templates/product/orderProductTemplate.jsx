@@ -89,7 +89,6 @@ function OrderProductTemplate({ order }) {
   });
 
   const submitHandler = async (values) => {
-    console.log("Values", values);
     mutateAsync(values);
   };
 
@@ -120,6 +119,8 @@ function OrderProductTemplate({ order }) {
                 src={
                   "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
                 }
+                height={200}
+                width={200}
                 alt="san-disk"
                 style={{ height: "90%", width: "90%", objectFit: "contain" }}
               />

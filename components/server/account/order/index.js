@@ -6,6 +6,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOrdersApi, useMyOrders } from "@/api/order";
+import { useSelector } from "react-redux";
+import { LoadUser } from "@/libs/fetch";
 
 function OrderComponent() {
   const {
@@ -17,13 +19,16 @@ function OrderComponent() {
     queryKey: ["Orders"],
     queryFn: fetchOrdersApi,
   });
-  console.log("Orders", ordersData);
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <Box mt={2}>
       {ordersIsLoading ? (
         <h1>Loading...</h1>
       ) : (
         <>
+          {isAuthenticated ? null : <LoadUser />}
           <Box alignItems={"center"} display={"flex"} justifyContent={"center"}>
             <Search>
               <SearchIconWrapper>

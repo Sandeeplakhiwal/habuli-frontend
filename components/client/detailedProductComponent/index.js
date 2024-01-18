@@ -82,7 +82,6 @@ export const ProductActionButtonBox = () => {
 };
 
 export const DetailsBoxContainer = ({ product }) => {
-  console.log("Check Product", product);
   return (
     <CustomDetailBoxContainer>
       <Typography variant={"subtitle1"} fontWeight={550} fontSize={18}>
@@ -149,8 +148,6 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
     },
   });
 
-  console.log("Errors", errors);
-
   const reviewPostApi = (formData) => {
     return axios.post(`${server}/product/reviews/${params.pId}`, formData, {
       headers: {
@@ -178,12 +175,8 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
   });
 
   const submitHandler = async (values) => {
-    console.log("Values", values);
     mutateAsync(values);
   };
-
-  console.log("DATATA", reviewPostData);
-  console.log("Errror", reviewPostError);
 
   useEffect(() => {
     if (reviewPostData && reviewPostIsSuccess) {
