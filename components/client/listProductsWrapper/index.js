@@ -14,14 +14,13 @@ function ListProductsWrapper() {
     });
   };
   const { data } = useQuery({
-    queryKey: "ListProducts",
+    queryKey: ["ListProducts"],
     queryFn: () => getFilteredProductsApi(params.slug),
   });
-  console.log("ListProducts", data);
   return (
     <>
-      {data?.data?.products?.map((product) => (
-        <ListProductTemplate product={product} />
+      {data?.data?.products?.map((product, index) => (
+        <ListProductTemplate key={index} product={product} />
       ))}
     </>
   );

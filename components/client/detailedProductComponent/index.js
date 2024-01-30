@@ -24,6 +24,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { reviewSchema } from "@/schema/product";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/redux/slices/cartSlice";
 
 const ratingLabels = {
   1: "Useless",
@@ -33,13 +35,11 @@ const ratingLabels = {
   5: "Excellent",
 };
 
-export const ListImgComponent = () => {
+export const ListImgComponent = ({ product = {} }) => {
   return (
     <CustomContainerBox>
       <Image
-        src={
-          "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
-        }
+        src={product?.images?.[0]?.url || "/images/default-image.webp"}
         height={40}
         width={40}
         alt="camera"
@@ -48,13 +48,11 @@ export const ListImgComponent = () => {
   );
 };
 
-export const ProductImageBox = () => {
+export const ProductImageBox = ({ product = {} }) => {
   return (
     <CustomProductImageBox>
       <Image
-        src={
-          "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
-        }
+        src={product?.images?.[0]?.url || "/images/default-image.webp"}
         height={300}
         width={350}
         alt="san-disk"
@@ -63,7 +61,11 @@ export const ProductImageBox = () => {
   );
 };
 
-export const ProductActionButtonBox = () => {
+export const ProductActionButtonBox = ({
+  id,
+  handleAddToCart,
+  handleBuyNowBtn,
+}) => {
   return (
     <CustomProductActionBtnBox>
       <Button
@@ -71,10 +73,16 @@ export const ProductActionButtonBox = () => {
         startIcon={<ShoppingCartIcon />}
         fullWidth
         sx={{ marginRight: 1 }}
+        onClick={() => handleAddToCart(id)}
       >
         Add to cart
       </Button>
-      <Button variant={"contained"} startIcon={<FlashOnIcon />} fullWidth>
+      <Button
+        onClick={(e) => handleBuyNowBtn(id)}
+        variant={"contained"}
+        startIcon={<FlashOnIcon />}
+        fullWidth
+      >
         Buy now
       </Button>
     </CustomProductActionBtnBox>
@@ -82,7 +90,6 @@ export const ProductActionButtonBox = () => {
 };
 
 export const DetailsBoxContainer = ({ product }) => {
-  console.log("Check Product", product);
   return (
     <CustomDetailBoxContainer>
       <Typography variant={"subtitle1"} fontWeight={550} fontSize={18}>
@@ -149,8 +156,6 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
     },
   });
 
-  console.log("Errors", errors);
-
   const reviewPostApi = (formData) => {
     return axios.post(`${server}/product/reviews/${params.pId}`, formData, {
       headers: {
@@ -178,12 +183,8 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
   });
 
   const submitHandler = async (values) => {
-    console.log("Values", values);
     mutateAsync(values);
   };
-
-  console.log("DATATA", reviewPostData);
-  console.log("Errror", reviewPostError);
 
   useEffect(() => {
     if (reviewPostData && reviewPostIsSuccess) {
@@ -194,7 +195,14 @@ const RatingsAndReviewSection = ({ product, productRating }) => {
     if (reviewPostError) {
       toast.error(reviewPostError?.response?.data?.error);
     }
-  }, [reviewPostData, reviewPostIsSuccess, reviewPostError]);
+  }, [reviewPostData, reviewPostIsSuccess, reviewPostError, router]);
+
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (id) => {
+    dispatch(addToCart({ _id: id, quantity: 1 }));
+    toast.success("Item added to cart");
+  };
 
   return (
     <Box display={"flex"} flexDirection={"column"} gap={"0.5rem"}>
@@ -403,8 +411,9 @@ const ReviewsContainer = ({ product }) => {
   return (
     <CustomReviewsContainer>
       <Typography m={"1rem 0"}>Top Reviews</Typography>
-      {product?.reviews?.map((review) => (
+      {product?.reviews?.map((review, index) => (
         <SingleReviewBox
+          key={index}
           userName={review.name}
           rating={review.rating}
           reviewDate={"4-may-2004"}

@@ -1,11 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, InputBase, Typography, alpha } from "@mui/material";
 import OrderProductTemplate from "@/components/templates/product/orderProductTemplate";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOrdersApi, useMyOrders } from "@/api/order";
+import { useSelector } from "react-redux";
+import { LoadUser } from "@/libs/fetch";
+
+function getDeliveryDate(createdAt) {
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const theDate = new Date(createdAt);
+
+  theDate.setDate(theDate.getDate() + 7);
+
+  const dayOfWeek = daysOfWeek[theDate.getDay()];
+  const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
+    theDate
+  );
+  const dayOfMonth = theDate.getDate();
+
+  // Format the date
+  const formattedDate = `${dayOfWeek} ${month} ${dayOfMonth}`;
+
+  return formattedDate;
+}
 
 function OrderComponent() {
   const {
@@ -13,11 +34,46 @@ function OrderComponent() {
     error,
     isLoading: ordersIsLoading,
     isFetching,
+    isSuccess: ordersSuccess,
   } = useQuery({
     queryKey: ["Orders"],
     queryFn: fetchOrdersApi,
+    refetchOnMount: true,
   });
-  console.log("Orders", ordersData);
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+  const [keyword, setKeyword] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  const handleSearch = (orders = []) => {
+    const lowerKeyword = keyword.toLowerCase().trim();
+
+    if (lowerKeyword === "") {
+      setFilteredOrders(orders);
+      return;
+    }
+
+    const filtered = orders.filter((order) =>
+      order.orderItems.some((item) =>
+        item.name.toLowerCase().includes(lowerKeyword)
+      )
+    );
+
+    setFilteredOrders(filtered);
+  };
+
+  console.log(keyword);
+  console.log(filteredOrders);
+
+  useEffect(() => {
+    if (ordersData && ordersSuccess) {
+      const ans = handleSearch(ordersData?.data?.orders);
+      console.log("ans", ans);
+      setOrders(ordersData?.data?.orders);
+    }
+  }, [ordersData, ordersSuccess]);
+
   return (
     <Box mt={2}>
       {ordersIsLoading ? (
@@ -32,13 +88,27 @@ function OrderComponent() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                type="text"
+                value={keyword}
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                }}
                 fullWidth
+                onKeyDown={(e) =>
+                  e.key === "Enter" ? handleSearch(orders) : null
+                }
+                autoFocus={true}
               />
             </Search>
           </Box>
-          {ordersData?.data?.orders?.length >= 1 ? (
-            ordersData?.data?.orders?.map((i) => (
-              <OrderProductTemplate order={i} />
+          {filteredOrders.length >= 1 ? (
+            filteredOrders.map((i, index) => (
+              <OrderProductTemplate
+                key={index}
+                order={i}
+                status={i ? i.orderStatus : ""}
+                deliveryDate={getDeliveryDate(i ? i.createdAt : "")}
+              />
             ))
           ) : (
             <Typography

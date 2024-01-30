@@ -33,13 +33,12 @@ function ResetPasswordForm() {
 
   const submitHandler = async (values) => {
     const formData = { password: values.password, token: params.token };
-    console.log(formData);
+
     mutateAsync(formData);
   };
 
   useEffect(() => {
     if (data && isSuccess) {
-      console.log(data);
       toast.success(data?.data.message);
       //   redirect("/");
     }

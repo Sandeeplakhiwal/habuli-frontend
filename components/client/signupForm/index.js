@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { loginApi, signupApi } from "@/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { loadUser } from "@/redux/slices/userSlice";
 
 function LoginForm() {
   const initialValues = {
@@ -16,6 +18,8 @@ function LoginForm() {
     email: "",
     password: "",
   };
+
+  const dispatch = useDispatch();
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
@@ -37,8 +41,8 @@ function LoginForm() {
 
   useEffect(() => {
     if (data && isSuccess) {
-      console.log(data);
       toast.success("Registered successfully");
+      dispatch(loadUser(data?.data.user));
       redirect("/");
     }
     if (error) {

@@ -15,7 +15,7 @@ function CountDown({ isTimerRunning, setIsTimerRunning }) {
     }
 
     return () => clearInterval(timerId);
-  }, [counter]);
+  }, [counter, isTimerRunning]);
   return <Typography variant={"caption"}>00:00:{counter} seconds</Typography>;
 }
 

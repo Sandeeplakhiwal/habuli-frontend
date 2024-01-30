@@ -6,19 +6,16 @@ import React from "react";
 import NextLink from "next/link";
 
 function HomeProductTemplate({ product }) {
-  console.log("Product", product);
   return (
     <CustomContainerBox>
       <Link
         component={NextLink}
-        href={`/products/category/${product?.category}`}
+        href={`/products/category/${product ? product.category : "/"}`}
         sx={{ textDecoration: "none", color: "black" }}
       >
         <ImageWrapper>
           <Image
-            src={
-              "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
-            }
+            src={product?.images?.[0]?.url || "/images/default-image.webp"}
             height={119}
             width={150}
             alt="camera"

@@ -19,8 +19,11 @@ import styled from "@emotion/styled";
 import NextLink from "next/link";
 import AccountIcon from "@mui/icons-material/PersonRounded";
 import CartIcon from "@mui/icons-material/ShoppingCartRounded";
+import LoginIcon from "@mui/icons-material/Login";
+import { useSelector } from "react-redux";
 
 function HeaderComponent() {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -29,6 +32,10 @@ function HeaderComponent() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { cartItems } = useSelector((state) => state.cart);
+  console.log("cart", cartItems);
+
   return (
     <AppBar position="static" sx={{ minWidth: "320px" }}>
       <Toolbar>
@@ -52,28 +59,54 @@ function HeaderComponent() {
           flex={1}
           justifyContent={"right"}
         >
-          <CustomLink component={NextLink} href="/auth/signup">
+          <CustomLink
+            component={NextLink}
+            href={isAuthenticated ? "/" : "/auth/signup"}
+          >
             <NavButton color="inherit">
               Become a <NavSpan>Influencer</NavSpan>
             </NavButton>
           </CustomLink>
-          <CustomLink component={NextLink} href={"/account"}>
+          <CustomLink
+            component={NextLink}
+            href={isAuthenticated ? "/account" : "/auth/login"}
+          >
             <NavButton color="inherit">
-              <AccountIcon />
-              <NavSpan>Account</NavSpan>
+              {isAuthenticated ? <AccountIcon /> : <LoginIcon />}
+              <NavSpan>{isAuthenticated ? "Account" : "Login"}</NavSpan>
             </NavButton>
           </CustomLink>
-          <NavButton color="inherit">
-            <Badge badgeContent={4} color="badgeColor">
-              <CartIcon sx={{ fontSize: "30px" }} />
-            </Badge>
-          </NavButton>
+          <Link
+            sx={{
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              pb: 1,
+            }}
+            component={NextLink}
+            href="/cart"
+          >
+            <NavButton color="inherit">
+              <Badge
+                badgeContent={cartItems ? cartItems.length : 0}
+                color="badgeColor"
+              >
+                <CartIcon sx={{ fontSize: "30px" }} />
+              </Badge>
+            </NavButton>
+          </Link>
         </MdStack>
         <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
           <AccountIcon onClick={handleClick} />
-          <Badge badgeContent={4} color="badgeColor">
-            <CartIcon />
-          </Badge>
+          <Link sx={{ color: "#fff" }} component={NextLink} href={"/cart"}>
+            <Badge
+              badgeContent={cartItems ? cartItems.length : 0}
+              color="badgeColor"
+            >
+              <CartIcon />
+            </Badge>
+          </Link>
         </XsStack>
       </Toolbar>
       <Menu

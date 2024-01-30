@@ -1,12 +1,56 @@
 "use client";
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { LoadUser } from "@/libs/fetch";
+import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import { updateProfileSchema } from "@/schema/auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateProfileApi } from "@/api/user";
+import toast from "react-hot-toast";
 
 function PersonalInformationForm() {
   const [pIEClicked, setPieClicked] = useState(false);
   const [emailEditClicked, setEmailEditClicked] = useState(false);
-  const personalInfoSaveHandler = () => {};
-  const emailSaveHandler = () => {};
+  const queryClient = useQueryClient();
+
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  const updateProfileInitialValues = {
+    name: user ? user.name : "",
+    email: user ? user.email : "",
+  };
+
+  const { mutateAsync: updateProfileMutate } = useMutation({
+    mutationKey: ["update-profile"],
+    mutationFn: updateProfileApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast.success("Profile updated successfully");
+      setPieClicked(false);
+      setEmailEditClicked(false);
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+
+  const {
+    values: profileValues,
+    errors: profileErrors,
+    handleChange: handleProfileChange,
+    handleBlur: handleProfileBlur,
+    handleSubmit: handleProfileSubmit,
+  } = useFormik({
+    initialValues: updateProfileInitialValues,
+    validationSchema: updateProfileSchema,
+    onSubmit: (values) => {
+      updateProfileMutate(values);
+    },
+  });
+
+  console.log(profileErrors);
+
   return (
     <Box mt={2} p={1}>
       <Typography alignItems={"center"}>
@@ -33,30 +77,25 @@ function PersonalInformationForm() {
         <TextField
           type="text"
           size="small"
-          defaultValue={"Sandeep"}
+          placeholder={user?.name}
           sx={{
-            opacity: 0.7,
             "&:hover": { cursor: pIEClicked ? "auto" : "not-allowed" },
           }}
           disabled={pIEClicked ? false : true}
-        />
-        <TextField
-          type="text"
-          size="small"
-          defaultValue={"Lakhiwal"}
-          sx={{
-            opacity: 0.7,
-            "&:hover": { cursor: pIEClicked ? "auto" : "not-allowed" },
-          }}
-          disabled={pIEClicked ? false : true}
+          name="name"
+          id="name"
+          value={profileValues.name}
+          onChange={handleProfileChange}
+          onBlur={handleProfileBlur}
         />
       </Box>
+
       {pIEClicked ? (
         <Box sx={{ mt: 1, textAlign: "right" }}>
           <Button
             variant={"contained"}
             sx={{ textTransform: "capitalize" }}
-            onClick={personalInfoSaveHandler}
+            onClick={handleProfileSubmit}
             size="small"
           >
             Save
@@ -87,17 +126,21 @@ function PersonalInformationForm() {
         <TextField
           type="email"
           size="small"
-          defaultValue={"sandeeplakhiwal98@gmail.com"}
-          sx={{ opacity: 0.7 }}
           fullWidth
+          placeholder={user?.email}
           disabled={emailEditClicked ? false : true}
+          name="email"
+          id="email"
+          onChange={handleProfileChange}
+          onBlur={handleProfileBlur}
+          value={profileValues.email}
         />
         {emailEditClicked ? (
           <Box sx={{ mt: 1, textAlign: "right" }}>
             <Button
               variant={"contained"}
               sx={{ textTransform: "capitalize" }}
-              onClick={emailSaveHandler}
+              onClick={handleProfileSubmit}
               size="small"
             >
               Save

@@ -8,6 +8,12 @@ export const getCategoryProductsApi = (category) => {
   });
 };
 
+export const getAllProductsApi = () => {
+  return axios.get(`${server}/products`, {
+    withCredentials: true,
+  });
+};
+
 export const getFilteredProductsApi = (category) => {
   return axios.get(`${server}/products?category=${category}`, {
     withCredentials: true,

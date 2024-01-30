@@ -19,6 +19,12 @@ export const signupApi = (formData) => {
   });
 };
 
+export const LoadUserApi = () => {
+  return axios.get(`${server}/me`, {
+    withCredentials: true,
+  });
+};
+
 export const forgotPasswordApi = (formData) => {
   return axios.post(`${server}/password/forgot`, formData, {
     headers: {
@@ -40,4 +46,13 @@ export const resetPasswordApi = (data) => {
       withCredentials: true,
     }
   );
+};
+
+export const updateProfileApi = (formData) => {
+  return axios.put(`${server}/profile/update`, formData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
 };

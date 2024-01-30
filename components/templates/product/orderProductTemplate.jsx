@@ -17,6 +17,7 @@ import { server } from "@/redux/store";
 import { useParams, useRouter } from "next/navigation";
 import StarIcon from "@mui/icons-material/Star";
 import toast from "react-hot-toast";
+import Image from "next/image";
 // import Image from "next/image";
 
 const ratingLabels = {
@@ -27,7 +28,7 @@ const ratingLabels = {
   5: "Excellent",
 };
 
-function OrderProductTemplate({ order }) {
+function OrderProductTemplate({ order, status, deliveryDate }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -88,7 +89,6 @@ function OrderProductTemplate({ order }) {
   });
 
   const submitHandler = async (values) => {
-    console.log("Values", values);
     mutateAsync(values);
   };
 
@@ -101,7 +101,7 @@ function OrderProductTemplate({ order }) {
     if (reviewPostError) {
       toast.error(reviewPostError?.response?.data?.error);
     }
-  }, [reviewPostData, reviewPostIsSuccess, reviewPostError]);
+  }, [reviewPostData, reviewPostIsSuccess, reviewPostError, router]);
 
   return (
     <Box fontSize={14} padding={{ md: "0 2rem", xs: "0 10px" }} mb={2}>
@@ -115,10 +115,12 @@ function OrderProductTemplate({ order }) {
               alignItems={"center"}
               height={"100%"}
             >
-              <img
+              <Image
                 src={
-                  "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
+                  order?.orderItems?.[0]?.Image || "/images/default-image.webp"
                 }
+                height={200}
+                width={200}
                 alt="san-disk"
                 style={{ height: "90%", width: "90%", objectFit: "contain" }}
               />
@@ -134,7 +136,7 @@ function OrderProductTemplate({ order }) {
                 fontSize={{ xs: 8, md: 12 }}
                 sx={{ opacity: 0.7 }}
               >
-                Color white size-6
+                {order.orderItems[0].product.description}
               </Typography>
             </Box>
           </Grid>
@@ -162,15 +164,23 @@ function OrderProductTemplate({ order }) {
                 fontSize={{ md: 14, xs: 9 }}
                 sx={{ display: "flex", flexDirection: "column" }}
               >
-                Delivered on Nov 01
+                {status === "Processing"
+                  ? `Delivery by ${deliveryDate}`
+                  : `Delivered on ${deliveryDate}`}
                 <Typography fontSize={{ md: 14, xs: 7 }} sx={{ opacity: 0.7 }}>
-                  Your Item has been delivered
+                  {status === "Processing"
+                    ? "Order is being processed"
+                    : "Your order has shipped"}
                 </Typography>
                 <Typography
                   fontSize={{ md: 14, xs: 8 }}
-                  color={"#2874f0"}
-                  sx={{ cursor: "pointer" }}
-                  onClick={handleOpen}
+                  color={status === "Delivered" ? "#2874f0" : "GrayText"}
+                  sx={{
+                    cursor: `${
+                      status === "Delivered" ? "pointer" : "not-allowed"
+                    }`,
+                  }}
+                  onClick={status === "Delivered" && handleOpen}
                 >
                   Rate and review product
                 </Typography>

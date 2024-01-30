@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategoryProductsApi } from "@/api/product";
 
 const ProductsCarousel = ({ title, productsData }) => {
-  console.log("ProductsData", productsData);
   const mdSliderSettings = {
     dots: false,
     infinite: false,
@@ -31,7 +30,7 @@ const ProductsCarousel = ({ title, productsData }) => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 2,
     slidesToScroll: 1,
     autoplay: false,
   };
@@ -59,8 +58,8 @@ const ProductsCarousel = ({ title, productsData }) => {
           {title}
         </Typography>
         <Carousel {...mdSliderSettings}>
-          {productsData?.data?.products?.map((i) => (
-            <Wrap>
+          {productsData?.data?.products?.map((i, index) => (
+            <Wrap key={index}>
               <HomeProductTemplate product={i} />
             </Wrap>
           ))}
@@ -86,8 +85,8 @@ const ProductsCarousel = ({ title, productsData }) => {
           {title}
         </Typography>
         <Carousel {...smSliderSettings}>
-          {productsData?.data?.products?.map((item) => (
-            <Wrap>
+          {productsData?.data?.products?.map((item, index) => (
+            <Wrap key={index}>
               <HomeProductTemplate product={item} />
             </Wrap>
           ))}
@@ -107,8 +106,8 @@ const ProductsCarousel = ({ title, productsData }) => {
           {title}
         </Typography>
         <Carousel {...xsSliderSettings}>
-          {productsData?.data?.products?.map((i) => (
-            <Wrap>
+          {productsData?.data?.products?.map((i, index) => (
+            <Wrap key={index}>
               <HomeProductTemplate product={i} />
             </Wrap>
           ))}
@@ -251,7 +250,7 @@ export default function App() {
 
       <Slider ref={slider} {...settings}>
         {products?.map((item, index) => {
-          return <BasicCard item={item} />;
+          return <BasicCard key={index} item={item} />;
         })}
       </Slider>
     </div>
