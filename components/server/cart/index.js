@@ -3,11 +3,15 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import CartItem from "@/components/templates/product/cartItem";
 import {
+  CartItemsCartWrapper,
+  CartItemsWrapper,
   DeliveryAddressComp,
   PlaceOrderButton,
   PriceDetailsList,
 } from "@/components/client/cart";
 import ShieldIcon from "@mui/icons-material/Shield";
+import { useSelector } from "react-redux";
+import { PriceDetailsWrapper } from "@/components/client/checkout";
 
 function CartComponent() {
   return (
@@ -18,7 +22,7 @@ function CartComponent() {
       }}
     >
       <Grid container gap={2}>
-        <Grid item md={7} sm={12}>
+        <Grid item xs={12} md={7} sm={12}>
           <Box
             sx={{
               display: "flex",
@@ -34,14 +38,12 @@ function CartComponent() {
               <DeliveryAddressComp />
             </Box>
             <Box bgcolor={"#fff"} p={{ sm: 2, xs: 0.5 }} position={"relative"}>
-              <CartItem />
-              <CartItem />
-              <CartItem />
+              <CartItemsCartWrapper />
               <PlaceOrderButton />
             </Box>
-            <Box bgcolor={"#fff"} p={{ sm: 2, xs: 0.5 }}>
+            {/*             <Box bgcolor={"#fff"} p={{ sm: 2, xs: 0.5 }}>
               <CartItem />
-            </Box>
+            </Box> */}
           </Box>
         </Grid>
         <Grid item md={4} sm={12} xs={12} height={"auto"} mt={1}>
@@ -53,7 +55,7 @@ function CartComponent() {
             Price details
           </Typography>
           <hr />
-          <PriceDetailsList />
+          <PriceDetailsWrapper />
           <Typography
             sx={{
               display: "flex",

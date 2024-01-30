@@ -23,6 +23,8 @@ import NextLink from "next/link";
 import PersonalInformationForm from "@/components/client/personalInformationForm";
 import { useSelector } from "react-redux";
 import { UserAccountNameChit } from "@/components/client/account";
+import PinDropIcon from "@mui/icons-material/PinDrop";
+import ManageAddressForm from "@/components/client/manageAddressForm";
 
 function AccountComponent() {
   return (
@@ -43,7 +45,11 @@ function AccountComponent() {
       </Grid>
       <Grid item xs={12} sm={7} md={8} bgcolor={"white"}>
         <Box width={"full"} textAlign={"center"} mt={4}>
-          <Button variant={"contained"} sx={{ margin: 1, width: "50%" }}>
+          <Button
+            variant={"contained"}
+            color="tertiary"
+            sx={{ margin: 1, width: "50%" }}
+          >
             <Link
               component={NextLink}
               href={"/account/orders"}
@@ -51,7 +57,7 @@ function AccountComponent() {
             >
               My Orders
             </Link>
-            <ChevronRightIcon />
+            <ChevronRightIcon sx={{ color: "white" }} />
           </Button>
         </Box>
         <Box p={2} mt={4}>
@@ -64,6 +70,23 @@ function AccountComponent() {
             Account Settings
           </Typography>
           <PersonalInformationForm />
+
+          <Typography
+            textTransform={"uppercase"}
+            sx={{
+              opacity: 0.5,
+              display: "flex",
+              alignItems: "end",
+              gap: 1,
+              mt: 4,
+            }}
+            fontWeight={700}
+          >
+            <PinDropIcon sx={{ color: "blue", opacity: 1 }} />
+            Manage Addresses
+          </Typography>
+          <ManageAddressForm />
+
           <Box mt={4}>
             <Typography>FAQs</Typography>
             <ul style={{ paddingLeft: "20px", marginTop: "1rem" }}>

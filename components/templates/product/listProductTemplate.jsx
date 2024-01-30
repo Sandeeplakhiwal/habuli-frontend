@@ -18,16 +18,14 @@ function ListProductTemplate({ product }) {
   const params = useParams();
   const slug = params.slug;
   return (
-    <CustomStack direction={"row"}>
+    <CustomStack direction={"row"} pl={1} pr={1}>
       <CustomWrapperLink
         component={NextLink}
-        href={`${slug}/item/${product?._id}`}
+        href={`${slug}/item/${product ? product._id : ""}`}
       >
         <ImageBox>
           <Image
-            src={
-              "https://rukminim2.flixcart.com/image/416/416/xif0q/keyboard/gaming-keyboard/w/u/g/evofox-deathray-prism-rgb-silent-membrane-keys-amkette-original-imagp4fwhmyzuwme.jpeg?q=70"
-            }
+            src={product?.images?.[0]?.url || "/images/default-image.webp"}
             height={150}
             width={250}
             alt="camera"
@@ -37,6 +35,7 @@ function ListProductTemplate({ product }) {
           <CustomLink
             component={NextLink}
             href={`${slug}/item/${product?._id}`}
+            sx={{ fontSize: 12 }}
           >
             {product?.name}
           </CustomLink>
@@ -83,11 +82,13 @@ const CustomStack = styled(Stack)(({ theme }) => ({
   alignItems: "flex-start",
   marginTop: "8px",
   marginBottom: "8px",
+  justifyContent: "space-between",
 }));
 const CustomWrapperLink = styled(Link)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   height: "100%",
+  width: "100%",
   alignItems: "flex-start",
   textDecoration: "none",
   color: "black",
@@ -123,17 +124,26 @@ const CustomLink = styled(Link)(({ theme }) => ({
   ":hover": {
     color: theme.palette.primary.light,
   },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 14,
+  },
 }));
 const ReviewsTypography = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
   fontSize: 12,
   paddingTop: "5px",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 10,
+  },
 }));
 const ProductDetailUL = styled("ul")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   padding: "5px 14px",
   justifyContent: "center",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 10,
+  },
 }));
 const PruductDetailList = styled("li")(({ theme }) => ({
   fontWeight: 500,
@@ -143,6 +153,9 @@ const ProductDetailTypo = styled(Typography)(({ theme }) => ({
   fontSize: 10,
 }));
 const ProductPriceTypo = styled(Typography)(({ theme }) => ({
-  fontWeight: 550,
+  fontWeight: 400,
   fontSize: 25,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 16,
+  },
 }));

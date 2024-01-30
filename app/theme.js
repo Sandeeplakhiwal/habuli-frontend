@@ -15,6 +15,11 @@ export const theme = createTheme({
       dark: "#ba000d",
       contrastText: "#000",
     },
+    tertiary: {
+      light: "#6fa3ff",
+      main: "#2874f0",
+      dart: "#0050a0",
+    },
     badgeColor: {
       main: "orange",
     },

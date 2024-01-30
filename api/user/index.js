@@ -47,3 +47,12 @@ export const resetPasswordApi = (data) => {
     }
   );
 };
+
+export const updateProfileApi = (formData) => {
+  return axios.put(`${server}/profile/update`, formData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+};

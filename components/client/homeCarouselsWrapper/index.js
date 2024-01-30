@@ -1,5 +1,5 @@
 "use client";
-import { getCategoryProductsApi } from "@/api/product";
+import { getAllProductsApi, getCategoryProductsApi } from "@/api/product";
 import { LoadUserApi } from "@/api/user";
 import ProductsCarousel from "@/components/templates/caraousel/productsCarousel";
 import { loadUser } from "@/redux/slices/userSlice";
@@ -11,7 +11,8 @@ function HomeProductsCarouselWrapper() {
   const dispatch = useDispatch();
   const { isLoading, data, error } = useQuery({
     queryKey: ["categoryProducts"],
-    queryFn: () => getCategoryProductsApi("smartphone"),
+    // queryFn: () => getCategoryProductsApi("tv"),
+    queryFn: () => getAllProductsApi(),
   });
   const {
     data: userLoadData,

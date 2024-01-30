@@ -67,7 +67,6 @@ function FilterBar() {
 
   return (
     <Box boxSizing={"border-box"} padding={1} bgcolor={"white"} mt="8px">
-      {isAuthenticated ? null : <LoadUser />}
       <Stack direction={"column"} p={2} spacing={2}>
         <Typography fontWeight={570}>Filters</Typography>
         <Divider />

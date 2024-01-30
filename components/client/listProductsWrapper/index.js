@@ -14,7 +14,7 @@ function ListProductsWrapper() {
     });
   };
   const { data } = useQuery({
-    queryKey: "ListProducts",
+    queryKey: ["ListProducts"],
     queryFn: () => getFilteredProductsApi(params.slug),
   });
   return (

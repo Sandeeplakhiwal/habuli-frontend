@@ -22,3 +22,8 @@ export const resetPasswordSchema = Yup.object({
     "Password must match"
   ),
 });
+
+export const updateProfileSchema = Yup.object({
+  name: Yup.string().min(2).max(30),
+  email: Yup.string().email(),
+});

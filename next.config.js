@@ -3,13 +3,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "rukminim2.flixcart.com",
+        protocol: "http",
+        hostname: "res.cloudinary.com",
         port: "",
-        pathname: "/image/**",
+        pathname: "/dkqp81ehr/image/upload/**",
       },
     ],
   },
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;

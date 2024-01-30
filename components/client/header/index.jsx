@@ -33,6 +33,9 @@ function HeaderComponent() {
     setAnchorEl(null);
   };
 
+  const { cartItems } = useSelector((state) => state.cart);
+  console.log("cart", cartItems);
+
   return (
     <AppBar position="static" sx={{ minWidth: "320px" }}>
       <Toolbar>
@@ -73,17 +76,37 @@ function HeaderComponent() {
               <NavSpan>{isAuthenticated ? "Account" : "Login"}</NavSpan>
             </NavButton>
           </CustomLink>
-          <NavButton color="inherit">
-            <Badge badgeContent={4} color="badgeColor">
-              <CartIcon sx={{ fontSize: "30px" }} />
-            </Badge>
-          </NavButton>
+          <Link
+            sx={{
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              pb: 1,
+            }}
+            component={NextLink}
+            href="/cart"
+          >
+            <NavButton color="inherit">
+              <Badge
+                badgeContent={cartItems ? cartItems.length : 0}
+                color="badgeColor"
+              >
+                <CartIcon sx={{ fontSize: "30px" }} />
+              </Badge>
+            </NavButton>
+          </Link>
         </MdStack>
         <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
           <AccountIcon onClick={handleClick} />
-          <Badge badgeContent={4} color="badgeColor">
-            <CartIcon />
-          </Badge>
+          <Link sx={{ color: "#fff" }} component={NextLink} href={"/cart"}>
+            <Badge
+              badgeContent={cartItems ? cartItems.length : 0}
+              color="badgeColor"
+            >
+              <CartIcon />
+            </Badge>
+          </Link>
         </XsStack>
       </Toolbar>
       <Menu

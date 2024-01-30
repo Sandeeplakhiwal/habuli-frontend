@@ -7,10 +7,10 @@ import ListProductsWrapper from "@/components/client/listProductsWrapper";
 function CategoryProductsListComponent() {
   return (
     <Grid container spacing={1}>
-      <Grid item xs={3}>
+      <Grid item md={3} sx={{ display: { xs: "none", md: "grid" } }}>
         <FilterBar />
       </Grid>
-      <Grid item xs={9}>
+      <Grid item md={9} xs={12}>
         <ListProductsWrapper />
       </Grid>
     </Grid>
