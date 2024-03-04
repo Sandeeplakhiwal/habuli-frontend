@@ -9,6 +9,7 @@ import {
 import styled from "@emotion/styled";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,17 +67,18 @@ function CartItem({
     if (cartProductsData && cartProductsSuccess) {
       dispatch(addCartPrices(cartProductsData?.data?.prices));
     }
-  }, [cartProductsData, cartProductsSuccess]);
+  }, [cartProductsData, cartProductsSuccess, dispatch]);
 
   return (
     <Box mb={2}>
       <Grid container gap={1}>
         <Grid item xs={3}>
           <ImgBox>
-            <img
+            <Image
               src={product?.images?.[0]?.url || "/images/default-image.webp"}
               alt="item-img"
               height={90}
+              width={150}
             />
           </ImgBox>
         </Grid>

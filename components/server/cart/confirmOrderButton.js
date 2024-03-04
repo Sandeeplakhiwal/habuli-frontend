@@ -63,7 +63,7 @@ export const ConfirmOrderButton = () => {
     if (error) {
       toast.error(error.message);
     }
-  }, [data, isSuccess, isError]);
+  }, [data, isSuccess, isError, dispatch, error, queryClient, router]);
 
   return (
     <Button

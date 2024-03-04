@@ -2,6 +2,7 @@
 import { getAllProductsApi, getCategoryProductsApi } from "@/api/product";
 import { LoadUserApi } from "@/api/user";
 import ProductsCarousel from "@/components/templates/caraousel/productsCarousel";
+import AppLoader from "@/components/templates/loader/appLoader";
 import { loadUser } from "@/redux/slices/userSlice";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
@@ -14,6 +15,7 @@ function HomeProductsCarouselWrapper() {
     // queryFn: () => getCategoryProductsApi("tv"),
     queryFn: () => getAllProductsApi(),
   });
+
   const {
     data: userLoadData,
     error: userLoadError,
@@ -24,7 +26,8 @@ function HomeProductsCarouselWrapper() {
     if (userLoadData && userLoadSuccess) {
       dispatch(loadUser(userLoadData.data?.user));
     }
-  }, [userLoadData, userLoadError, userLoading]);
+  }, [userLoadData, userLoadError, userLoading, dispatch, userLoadSuccess]);
+
   const productsData = data ? data : [];
   return (
     <>

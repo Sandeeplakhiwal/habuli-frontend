@@ -72,7 +72,7 @@ function OrderComponent() {
       console.log("ans", ans);
       setOrders(ordersData?.data?.orders);
     }
-  }, [ordersData, ordersSuccess]);
+  }, [ordersData, ordersSuccess, handleSearch]);
 
   return (
     <Box mt={2}>

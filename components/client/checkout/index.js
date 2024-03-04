@@ -38,6 +38,7 @@ import {
 } from "@/redux/slices/buyNowSlice";
 import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function CheckBoxes() {
   const { buyNowItems } = useSelector((state) => state.buynow);
@@ -47,7 +48,7 @@ export function CheckBoxes() {
       console.log("chla");
       router.push("/");
     }
-  }, []);
+  }, [buyNowItems?.length, router]);
   return (
     <Box sx={{ p: { xs: "1rem 0", sm: "1rem 2rem", overflowY: "auto" } }}>
       <LoginCheckBox />
@@ -115,11 +116,16 @@ function DeliveryAddressCheckBox() {
     queryKey: ["shipping-info"],
     queryFn: getShippingInfoApi,
   });
-  const [shippingAddress, setShippingAddress] = useState(
-    localStorage.getItem("shippingInfo")
-      ? [JSON.parse(localStorage.getItem("shippingInfo"))]
-      : []
-  );
+  const [shippingAddress, setShippingAddress] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let shippingAddressInLocalStorage = localStorage.getItem("shippingInfo")
+        ? [JSON.parse(localStorage.getItem("shippingInfo"))]
+        : [];
+      setShippingAddress(shippingAddressInLocalStorage);
+    }
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -464,17 +470,18 @@ export function BuyNowItem({
     if (cartProductsData && cartProductsSuccess) {
       dispatch(addCartPrices(cartProductsData?.data?.prices));
     }
-  }, [cartProductsData, cartProductsSuccess]);
+  }, [cartProductsData, cartProductsSuccess, dispatch]);
 
   return (
     <Box mb={2}>
       <Grid container gap={1}>
         <Grid item xs={3}>
           <ImgBox>
-            <img
+            <Image
               src={product?.images?.[0]?.url || "/images/default-image.webp"}
               alt="item-img"
               height={90}
+              width={120}
             />
           </ImgBox>
         </Grid>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -20,11 +20,16 @@ import NextLink from "next/link";
 import AccountIcon from "@mui/icons-material/PersonRounded";
 import CartIcon from "@mui/icons-material/ShoppingCartRounded";
 import LoginIcon from "@mui/icons-material/Login";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/redux/slices/cartSlice";
+import { addToBuyNowCart } from "@/redux/slices/buyNowSlice";
 
 function HeaderComponent() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [initializedFromLocalStorage, setInitializedFromLocalStorage] =
+    useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +39,50 @@ function HeaderComponent() {
   };
 
   const { cartItems } = useSelector((state) => state.cart);
-  console.log("cart", cartItems);
+  const { buyNowItems } = useSelector((state) => state.buynow);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!initializedFromLocalStorage) {
+      // Fetch items from localStorage on component mount
+      let itemsInLocalStorage = localStorage.getItem("cartItems")
+        ? JSON.parse(localStorage.getItem("cartItems"))
+        : [];
+      // Fetch buyNowCartItems from localStorage on component mount
+      let buyNowItemsInLocalStorage = localStorage.getItem("buyNowItems")
+        ? JSON.parse(localStorage.getItem("cartItems"))
+        : [];
+
+      if (itemsInLocalStorage && itemsInLocalStorage.length) {
+        itemsInLocalStorage.forEach((element) => {
+          dispatch(addToCart(element));
+          console.log("dispatched", element);
+        });
+      }
+
+      if (buyNowItemsInLocalStorage && buyNowItemsInLocalStorage.length) {
+        buyNowItemsInLocalStorage.forEach((element) => {
+          dispatch(addToBuyNowCart([element]));
+          console.log("buy Now Dispatched", element);
+        });
+      }
+
+      setInitializedFromLocalStorage(true);
+    }
+  }, [dispatch, initializedFromLocalStorage]);
+
+  useEffect(() => {
+    // Update local storage whenever cartItems change
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    console.log("CartItems updated in localStorage");
+  }, [cartItems]);
+
+  useEffect(() => {
+    // Update local storage whenever cartItems change
+    localStorage.setItem("buyNowItems", JSON.stringify(buyNowItems));
+    console.log("buyNowItems updated in localStorage");
+  }, [buyNowItems]);
 
   return (
     <AppBar position="static" sx={{ minWidth: "320px" }}>

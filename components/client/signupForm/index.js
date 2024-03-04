@@ -48,7 +48,7 @@ function LoginForm() {
     if (error) {
       toast.error(error.response.data.error);
     }
-  }, [data, isSuccess, error]);
+  }, [data, isSuccess, error, dispatch]);
 
   const [showPassword, setShowPassword] = useState(false);
 

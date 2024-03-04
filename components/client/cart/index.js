@@ -39,7 +39,7 @@ export const PriceDetailsList = ({ items }) => {
     if (cartProductsData && cartProductsSuccess) {
       dispatch(addCartPrices(cartProductsData?.data?.prices));
     }
-  }, [cartProductsData, cartProductsSuccess]);
+  }, [cartProductsData, cartProductsSuccess, dispatch]);
   return (
     <List dense={true} sx={{ bgcolor: "#fff" }}>
       <ListItem>
@@ -94,9 +94,12 @@ export const PriceDetailsList = ({ items }) => {
 
 export const DeliveryAddressComp = () => {
   const { user } = useSelector((state) => state.user);
-  const shippingInfo = localStorage.getItem("shippingInfo")
-    ? JSON.parse(localStorage.getItem("shippingInfo"))
-    : "";
+  let shippingInfo;
+  if (typeof window !== "undefined" && window.localStorage) {
+    shippingInfo = localStorage.getItem("shippingInfo")
+      ? JSON.parse(localStorage.getItem("shippingInfo"))
+      : "";
+  }
   return (
     <Typography
       color={"GrayText"}
@@ -173,13 +176,7 @@ export const CartItemsWrapper = ({ items, isCart = false }) => {
         )
       );
     }
-  }, [
-    cartProductsData,
-    cartProductsSuccess,
-    addOrderItemsToOrder,
-    dispatch,
-    items,
-  ]);
+  }, [cartProductsData, cartProductsSuccess, dispatch, items]);
 
   if (!items.length) {
     return <Typography textAlign={"center"}>No items in cart</Typography>;

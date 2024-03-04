@@ -9,7 +9,7 @@ import { Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { server } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
@@ -28,12 +28,11 @@ function DetailedProductComponent() {
     queryFn: () => getDetailedProductApi(params.pId),
   });
 
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
   const addToCartHandler = (id) => {
-    console.log("Id", id);
     dispatch(addToCart({ _id: id, quantity: 1 }));
     toast.success("Item added to cart");
   };

@@ -1,5 +1,5 @@
 "use client";
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const getItemIndex = (cartItems = [], id) => {
   let index = cartItems.findIndex((item) => item._id === id);
@@ -7,9 +7,7 @@ export const getItemIndex = (cartItems = [], id) => {
 };
 
 const initialState = {
-  cartItems: localStorage.getItem("cartItems")
-    ? JSON.parse(localStorage.getItem("cartItems"))
-    : [],
+  cartItems: [],
   cartPrices: null,
 };
 
@@ -24,7 +22,6 @@ const Slice = createSlice({
       } else {
         state.cartItems.push(action.payload);
       }
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     addCartPrices: (state, action) => {
       state.cartPrices = action.payload;
@@ -35,17 +32,14 @@ const Slice = createSlice({
     removeFromCart: (state, action) => {
       let index = getItemIndex(state.cartItems, action.payload?._id);
       state.cartItems.splice(index, 1);
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     incrementCartItem: (state, action) => {
       let index = getItemIndex(state.cartItems, action.payload?._id);
       state.cartItems[index].quantity += 1;
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     decrementCartItem: (state, action) => {
       let index = getItemIndex(state.cartItems, action.payload?._id);
       state.cartItems[index].quantity -= 1;
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
   },
 });

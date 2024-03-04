@@ -3,9 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getItemIndex } from "./cartSlice";
 
 const initialState = {
-  buyNowItems: localStorage.getItem("buyNowItems")
-    ? JSON.parse(localStorage.getItem("buyNowItems"))
-    : [],
+  buyNowItems: [],
   buyNowPrices: null,
 };
 
@@ -25,27 +23,21 @@ const Slice = createSlice({
 
       // Make sure to create a new array to trigger Immer's immutability check
       state.buyNowItems = [...state.buyNowItems];
-
-      localStorage.setItem("buyNowItems", JSON.stringify(state.buyNowItems));
     },
     removeFromBuyNowCart: (state, action) => {
       let index = getItemIndex(state.buyNowItems, action.payload?._id);
       state.buyNowItems.splice(index, 1);
-      localStorage.setItem("buyNowItems", JSON.stringify(state.buyNowItems));
     },
     incrementBuyNowItem: (state, action) => {
       let index = getItemIndex(state.buyNowItems, action.payload?._id);
       state.buyNowItems[index].quantity += 1;
-      localStorage.setItem("buyNowItems", JSON.stringify(state.buyNowItems));
     },
     decrementBuyNowItem: (state, action) => {
       let index = getItemIndex(state.buyNowItems, action.payload?._id);
       state.buyNowItems[index].quantity -= 1;
-      localStorage.setItem("buyNowItems", JSON.stringify(state.buyNowItems));
     },
     resetBuyNowCart: (state, action) => {
       state.buyNowItems = [];
-      localStorage.removeItem("buyNowItems");
     },
   },
 });

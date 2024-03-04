@@ -123,7 +123,9 @@ function ManageAddressForm() {
     initialValues: addressInitialValues,
     validationSchema: shippingInfoSchema,
     onSubmit: (values, action) => {
-      localStorage.setItem("shippingInfo", JSON.stringify(values));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("shippingInfo", JSON.stringify(values));
+      }
       postShippingInfo(values);
       action.resetForm();
     },
@@ -146,7 +148,7 @@ function ManageAddressForm() {
       toast.success("Address deleted successfully");
       setDelId("");
     }
-  }, [deleteShippingInfoData, deleteShippingInfoSuccess]);
+  }, [deleteShippingInfoData, deleteShippingInfoSuccess, queryClient]);
 
   async function postShippingInfo(values) {
     await addShippingInfoMutate(values);
@@ -172,7 +174,7 @@ function ManageAddressForm() {
     if (formatedAddress) {
       setFieldValue("address", `${formatedAddress}`);
     }
-  }, [locationAddress, formatedAddress]);
+  }, [locationAddress, formatedAddress, setFieldValue, setValues]);
 
   const { user } = useSelector((state) => state.user);
 
