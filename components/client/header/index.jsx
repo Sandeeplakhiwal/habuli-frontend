@@ -85,125 +85,170 @@ function HeaderComponent() {
   }, [buyNowItems]);
 
   return (
-    <AppBar position="static" sx={{ minWidth: "320px" }}>
-      <Toolbar>
-        <LogoBox>
-          <LogoText href="/" component={NextLink}>
-            Habuli
-          </LogoText>
-        </LogoBox>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Search>
-        <MdStack
-          direction={"row"}
-          spacing={2}
-          flex={1}
-          justifyContent={"right"}
-        >
-          <CustomLink
-            component={NextLink}
-            href={isAuthenticated ? "/" : "/auth/signup"}
+    <Box
+      width={"full"}
+      maxWidth={"1440px"}
+      mx={"auto"}
+      position={"sticky"}
+      top={0}
+      zIndex={100}
+    >
+      <AppBar
+        position="static"
+        sx={{
+          minWidth: "320px",
+          height: { xs: "40px", sm: "auto" },
+          justifyContent: "center",
+        }}
+      >
+        <Toolbar>
+          <LogoBox>
+            <LogoText href="/" component={NextLink}>
+              Habuli
+            </LogoText>
+          </LogoBox>
+          <Box sx={{ display: { xs: "none", sm: "flex" }, flex: 1 }}>
+            <Search style={{ width: "full", display: "flex", flex: 1 }}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Searchâ¦"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </Box>
+          <Box sx={{ display: { sm: "none", xs: "flex" }, flex: 1 }} />
+          <MdStack
+            direction={"row"}
+            spacing={2}
+            flex={1}
+            justifyContent={"right"}
           >
-            <NavButton color="inherit">
-              Become a <NavSpan>Influencer</NavSpan>
-            </NavButton>
-          </CustomLink>
-          <CustomLink
-            component={NextLink}
-            href={isAuthenticated ? "/account" : "/auth/login"}
-          >
-            <NavButton color="inherit">
-              {isAuthenticated ? <AccountIcon /> : <LoginIcon />}
-              <NavSpan>{isAuthenticated ? "Account" : "Login"}</NavSpan>
-            </NavButton>
-          </CustomLink>
-          <Link
-            sx={{
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              pb: 1,
-            }}
-            component={NextLink}
-            href="/cart"
-          >
-            <NavButton color="inherit">
+            <CustomLink
+              component={NextLink}
+              href={isAuthenticated ? "/" : "/auth/signup"}
+            >
+              <NavButton color="inherit">
+                Become a <NavSpan>Influencer</NavSpan>
+              </NavButton>
+            </CustomLink>
+            <CustomLink
+              component={NextLink}
+              href={isAuthenticated ? "/account" : "/auth/login"}
+            >
+              <NavButton color="inherit">
+                {isAuthenticated ? <AccountIcon /> : <LoginIcon />}
+                <NavSpan>{isAuthenticated ? "Account" : "Login"}</NavSpan>
+              </NavButton>
+            </CustomLink>
+            <Link
+              sx={{
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                pb: 1,
+              }}
+              component={NextLink}
+              href="/cart"
+            >
+              <NavButton color="inherit">
+                <Badge
+                  badgeContent={cartItems ? cartItems.length : 0}
+                  color="badgeColor"
+                >
+                  <CartIcon sx={{ fontSize: "30px" }} />
+                </Badge>
+              </NavButton>
+            </Link>
+          </MdStack>
+          <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
+            <AccountIcon onClick={handleClick} />
+            <Link sx={{ color: "#fff" }} component={NextLink} href={"/cart"}>
               <Badge
                 badgeContent={cartItems ? cartItems.length : 0}
                 color="badgeColor"
               >
-                <CartIcon sx={{ fontSize: "30px" }} />
+                <CartIcon />
               </Badge>
-            </NavButton>
-          </Link>
-        </MdStack>
-        <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
-          <AccountIcon onClick={handleClick} />
-          <Link sx={{ color: "#fff" }} component={NextLink} href={"/cart"}>
-            <Badge
-              badgeContent={cartItems ? cartItems.length : 0}
-              color="badgeColor"
-            >
-              <CartIcon />
-            </Badge>
-          </Link>
-        </XsStack>
-      </Toolbar>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
+            </Link>
+          </XsStack>
+        </Toolbar>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&:before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
             },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Link component={NextLink} href={"/account"}>
+              My Account
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link component={NextLink} href={"/auth/login"}>
+              Orders
+            </Link>
+          </MenuItem>
+        </Menu>
+      </AppBar>
+      <Box
+        sx={{
+          display: { xs: "flex", sm: "none" },
+          flex: 1,
+          py: 1,
+          pt: 0,
+          px: 1,
+          bgcolor: "#6D258E",
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Link component={NextLink} href={"/account"}>
-            My Account
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link component={NextLink} href={"/auth/login"}>
-            Orders
-          </Link>
-        </MenuItem>
-      </Menu>
-    </AppBar>
+        <Search
+          style={{
+            width: "full",
+            display: "flex",
+            margin: "0 8px",
+          }}
+        >
+          <StyledInputBase
+            placeholder="Searchâ¦"
+            inputProps={{ "aria-label": "search" }}
+          />
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+        </Search>
+      </Box>
+    </Box>
   );
 }
 
@@ -221,6 +266,7 @@ const LogoBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     width: "auto",
     marginRight: "10px",
+    flexGrow: 0,
   },
 }));
 const LogoText = styled(Link)(({ theme }) => ({
@@ -241,10 +287,8 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: "#fff",
   },
   marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(1),
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
     width: "auto",
   },
   color: theme.palette.primary.light,
@@ -259,8 +303,11 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+
   [theme.breakpoints.down("sm")]: {
     padding: theme.spacing(0, 1),
+    backgroundColor: "gold",
+    borderRadius: "0 5px 5px 0",
   },
 }));
 
@@ -276,7 +323,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: "20ch",
     },
     [theme.breakpoints.down("sm")]: {
-      paddingLeft: `calc(1em + ${theme.spacing(3)})`,
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     },
     // backgroundColor: "green",
   },

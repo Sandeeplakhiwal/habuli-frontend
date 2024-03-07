@@ -38,14 +38,14 @@ export default HeroCaraousel;
 const Carousel = styled(Slider)`
   ul li button {
     &:before {
-      font-size: 10px;
+      font-size: 7px;
       color: #6d258e;
     }
   }
 
   li.slick-active button::before {
     color: #6d258e;
-    font-size: 11px;
+    font-size: 8px;
   }
 
   .slick-list {
@@ -67,7 +67,7 @@ const Wrap = styled(Box)`
   height: 50vh;
   min-width: 320px;
   @media (max-width: 768px) {
-    height: 30vh;
+    height: 25vh;
   }
   a {
     object-fit: contain;
@@ -78,7 +78,7 @@ const Wrap = styled(Box)`
       width: 100%;
       height: 100%;
       transition-duration: 300ms;
-      object-fit: fill;
+      object-fit: contain;
       min-width: 320px;
     }
   }

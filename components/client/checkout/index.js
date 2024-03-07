@@ -7,6 +7,7 @@ import {
   Link,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -175,7 +176,7 @@ function DeliveryAddressCheckBox() {
           display={"flex"}
         >
           Delivery address
-          {isAuthenticated ? (
+          {isAuthenticated && shippingAddress.length > 0 ? (
             <CheckIcon
               sx={{ pb: 0.5, ml: 0.5 }}
               color="primary"
@@ -471,21 +472,29 @@ export function BuyNowItem({
       dispatch(addCartPrices(cartProductsData?.data?.prices));
     }
   }, [cartProductsData, cartProductsSuccess, dispatch]);
-
+  const isMobile = useMediaQuery("(max-width:600px)");
+  console.log("Is Mobile", isMobile);
   return (
     <Box mb={2}>
-      <Grid container gap={1}>
+      <Grid container gap={2}>
         <Grid item xs={3}>
-          <ImgBox>
+          <ImgBox
+            sx={{
+              display: "flex",
+              justifyContent: "start",
+              flexDirection: "column",
+            }}
+          >
             <Image
               src={product?.images?.[0]?.url || "/images/default-image.webp"}
               alt="item-img"
-              height={90}
-              width={120}
+              height={isMobile ? 70 : 90}
+              width={isMobile ? 90 : 120}
+              style={{ borderRadius: "5px" }}
             />
           </ImgBox>
         </Grid>
-        <Grid item xs={5} display={"flex"} flexDirection={"column"}>
+        <Grid item xs={4} display={"flex"} flexDirection={"column"}>
           <Typography
             textOverflow={"ellipsis"}
             whiteSpace={"nowrap"}
@@ -507,7 +516,7 @@ export function BuyNowItem({
           >
             Seller: {product ? product.user.name : ""}
           </Typography>
-          <Typography mt={0.5}>{`₹${
+          <Typography mt={0.5} variant={"subtitle2"}>{`â¹${
             product
               ? product.price *
                 (buyNowItems
@@ -588,6 +597,7 @@ export function BuyNowItem({
         <Typography
           p={{ sm: "0.5rem" }}
           fontSize={{ sm: 14, xs: 12 }}
+          ml={{ xs: 1, sm: 0 }}
           variant="text"
           color={"primary"}
           textTransform={"uppercase"}

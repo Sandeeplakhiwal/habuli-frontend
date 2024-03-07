@@ -18,6 +18,7 @@ import { useParams, useRouter } from "next/navigation";
 import StarIcon from "@mui/icons-material/Star";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { format } from "date-fns";
 // import Image from "next/image";
 
 const ratingLabels = {
@@ -28,7 +29,7 @@ const ratingLabels = {
   5: "Excellent",
 };
 
-function OrderProductTemplate({ order, status, deliveryDate }) {
+function OrderProductTemplate({ order, status, deliveryDate, orderItem }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -43,6 +44,8 @@ function OrderProductTemplate({ order, status, deliveryDate }) {
     rating: 0,
     comment: "",
   };
+
+  console.log(orderItem);
 
   const {
     values,
@@ -116,9 +119,7 @@ function OrderProductTemplate({ order, status, deliveryDate }) {
               height={"100%"}
             >
               <Image
-                src={
-                  order?.orderItems?.[0]?.Image || "/images/default-image.webp"
-                }
+                src={orderItem.Image || "/images/default-image.webp"}
                 height={200}
                 width={200}
                 alt="san-disk"
@@ -127,23 +128,30 @@ function OrderProductTemplate({ order, status, deliveryDate }) {
             </Box>
           </Grid>
           <Grid item xs={4}>
-            <Box>
+            <Box display={"flex"} flexDirection={"column"}>
               <Typography fontSize={{ md: 14, xs: 10 }}>
-                {order.orderItems[0].name}
+                {orderItem.name}
               </Typography>
               <Typography
                 variant="caption"
                 fontSize={{ xs: 8, md: 12 }}
                 sx={{ opacity: 0.7 }}
               >
-                {order.orderItems[0].product.description}
+                {orderItem.product.description}
+              </Typography>
+              <Typography
+                variant="caption"
+                color={"GrayText"}
+                fontSize={{ xs: 7, md: 11 }}
+              >
+                Ordered on {format(order.createdAt, "dd/MM/yyyy")}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={2}>
             <Box>
               <Typography fontSize={{ md: 14, xs: 10 }}>
-                ₹{order.totalPrice}
+                â¹{orderItem.price}
               </Typography>
             </Box>
           </Grid>

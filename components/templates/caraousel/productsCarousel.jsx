@@ -34,7 +34,7 @@ const ProductsCarousel = ({ title, productsData }) => {
     slidesToScroll: 1,
     autoplay: false,
   };
-  const product = {};
+
   return (
     <>
       <Container

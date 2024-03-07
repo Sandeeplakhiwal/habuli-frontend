@@ -50,7 +50,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Price"
-          secondary={`₹${cartPrices ? cartPrices.itemsPrice : 0}`}
+          secondary={`â¹${cartPrices ? cartPrices.itemsPrice : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -61,7 +61,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Delivery charges"
-          secondary={`₹${cartPrices ? cartPrices.shippingCharges : 0}`}
+          secondary={`â¹${cartPrices ? cartPrices.shippingCharges : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -72,7 +72,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Tax"
-          secondary={`₹${cartPrices ? cartPrices.taxPrice : 0}`}
+          secondary={`â¹${cartPrices ? cartPrices.taxPrice : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -85,7 +85,7 @@ export const PriceDetailsList = ({ items }) => {
             padding: 1,
           }}
           primary="Total amount"
-          secondary={`₹${cartPrices ? cartPrices.totalAmount : 0}`}
+          secondary={`â¹${cartPrices ? cartPrices.totalAmount : 0}`}
         />
       </ListItem>
     </List>

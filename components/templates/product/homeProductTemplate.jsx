@@ -15,7 +15,7 @@ function HomeProductTemplate({ product }) {
       >
         <ImageWrapper>
           <Image
-            src={product?.images?.[0]?.url || "/images/default-image.webp"}
+            src={product?.images?.[0].url || "/images/default-image.webp"}
             height={119}
             width={150}
             alt="camera"
@@ -27,14 +27,14 @@ function HomeProductTemplate({ product }) {
             sx={{ opacity: "0.7" }}
             fontSize={{ xs: "12px", sm: "15px" }}
           >
-            {product?.name}
+            {product.name}
           </Typography>
           <Typography
             variant={{ sm: "caption", md: "subtitle2" }}
             fontWeight={"bold"}
             fontSize={{ xs: "12px", sm: "15px", md: "16px" }}
           >
-            From {product?.price} Rs
+            From {product.price} Rs
           </Typography>
         </DetailWrapper>
       </Link>
@@ -56,8 +56,8 @@ const CustomContainerBox = styled(Box)`
     width: 100px;
   }
   border: 0.1px solid #e0e0e0;
-  padding: 0 5px;
-  padding-top: 5px;
+  // padding: 0 5px;
+  // padding-top: 5px;
   background-color: white;
 `;
 
@@ -67,7 +67,7 @@ const ImageWrapper = styled(Box)`
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 `;
 
