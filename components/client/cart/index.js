@@ -119,8 +119,10 @@ export const PlaceOrderButton = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   function handlePlaceOrder(e) {
-    dispatch(addToBuyNowCart(cartItems));
-    console.log("worked");
+    if (cartItems.length) {
+      cartItems.map((item) => dispatch(addToBuyNowCart(item)));
+    }
+
     if (!cartItems.length) {
       e.preventDefault();
     }
