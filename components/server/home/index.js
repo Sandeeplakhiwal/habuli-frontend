@@ -36,6 +36,7 @@ function HomeComponent() {
     <Box>
       <HeroCaraousel images={Images} />
       <HomeProductsCarouselWrapper />
+      <Box sx={{ height: "50vh" }} />
     </Box>
   );
 }
