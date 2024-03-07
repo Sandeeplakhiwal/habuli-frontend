@@ -13,7 +13,14 @@ function Page() {
         <Grid item xs={12} sm={7}>
           <CheckBoxes />
         </Grid>
-        <Grid item xs={12} sm={3} height={"auto"} mt={1}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          height={"auto"}
+          mt={1}
+          sx={{ px: { xs: 1, sm: 0 } }}
+        >
           <Typography
             sx={{ color: "GrayText", textTransform: "uppercase", p: 1 }}
             variant={"subtitle2"}
