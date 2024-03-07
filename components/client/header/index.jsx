@@ -113,7 +113,7 @@ function HeaderComponent() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Searchâ¦"
+                placeholder="Search"
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
@@ -240,7 +240,7 @@ function HeaderComponent() {
           }}
         >
           <StyledInputBase
-            placeholder="Searchâ¦"
+            placeholder="Search"
             inputProps={{ "aria-label": "search" }}
           />
           <SearchIconWrapper>

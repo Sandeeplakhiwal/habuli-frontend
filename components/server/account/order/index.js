@@ -32,7 +32,6 @@ function OrderComponent() {
     refetchOnMount: true,
   });
 
-  const { isAuthenticated } = useSelector((state) => state.user);
   const [keyword, setKeyword] = useState("");
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -59,6 +58,12 @@ function OrderComponent() {
       handleSearch(ordersData?.data?.orders);
       setOrders(ordersData?.data?.orders);
     }
+
+    return () => {
+      setKeyword("");
+      setFilteredOrders([]);
+      setOrders([]);
+    };
   }, [ordersData, ordersSuccess, handleSearch]);
 
   return (
