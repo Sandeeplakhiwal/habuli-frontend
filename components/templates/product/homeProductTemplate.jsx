@@ -11,28 +11,35 @@ function HomeProductTemplate({ product }) {
       <Link
         component={NextLink}
         href={`/products/category/${product ? product.category : "/"}`}
-        sx={{ textDecoration: "none", color: "black" }}
+        sx={{
+          textDecoration: "none",
+          color: "inherit",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
         <ImageWrapper>
           <Image
             src={product?.images?.[0].url || "/images/default-image.webp"}
-            height={119}
-            width={150}
+            height={150} // Adjusted height
+            width={200} // Keeping width consistent
             alt="camera"
           />
         </ImageWrapper>
         <DetailWrapper>
           <Typography
-            variant={{ sm: "caption", md: "subtitle1" }}
-            sx={{ opacity: "0.7" }}
-            fontSize={{ xs: "12px", sm: "15px" }}
+            variant="subtitle2"
+            fontSize={12}
+            fontWeight="bold"
+            sx={{ textAlign: "center", marginTop: 1 }}
           >
             {product.name}
           </Typography>
           <Typography
-            variant={{ sm: "caption", md: "subtitle2" }}
-            fontWeight={"bold"}
-            fontSize={{ xs: "12px", sm: "15px", md: "16px" }}
+            variant="subtitle2"
+            sx={{ textAlign: "center", marginTop: 1 }}
+            fontSize={10}
           >
             From {product.price} Rs
           </Typography>
@@ -45,44 +52,43 @@ function HomeProductTemplate({ product }) {
 export default HomeProductTemplate;
 
 const CustomContainerBox = styled(Box)`
-  height: 170px;
-  width: 150px;
-  @media (max-width: 720px) {
-    height: 120px;
-    width: 80px;
-  }
-  @media (max-width: 1080px) {
-    height: 140px;
-    width: 100px;
-  }
-  border: 0.1px solid #e0e0e0;
-  // padding: 0 5px;
-  // padding-top: 5px;
+  width: 200px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
   background-color: white;
+  transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 600px) {
+    width: 150px;
+    margin: 0 auto 20px;
+    padding: 0;
+    padding-bottom: 10px;
+  }
 `;
 
 const ImageWrapper = styled(Box)`
-  height: 70%;
   width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
 const DetailWrapper = styled(Box)`
-  height: 30%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+  margin: 10px;
 `;
-
-// const CustomImage = styled(Image)(({ theme }) => ({
-//   objectFit: "contain",
-//   backgroundColor: "orange",
-//   borderRadius: "50%",
-// }));

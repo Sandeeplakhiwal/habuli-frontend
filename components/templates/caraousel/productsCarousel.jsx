@@ -1,286 +1,56 @@
 "use client";
-import Slider from "react-slick";
-// Importing styles
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Box, Container, Link, Typography } from "@mui/material";
-import styled from "@emotion/styled";
+
+import { Box, Container, Typography } from "@mui/material";
+
 import HomeProductTemplate from "../product/homeProductTemplate";
-import { useQuery } from "@tanstack/react-query";
-import { getCategoryProductsApi } from "@/api/product";
 
 const ProductsCarousel = ({ title, productsData }) => {
-  const mdSliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 1,
-    autoplay: false,
-  };
-  const smSliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    autoplay: false,
-  };
-  const xsSliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    autoplay: false,
-  };
-
   return (
-    <>
-      <Container
+    <Container
+      sx={{
+        padding: "1rem 0",
+        minWidth: "320px",
+        mt: "4rem",
+        backgroundColor: "white",
+      }}
+    >
+      <Typography variant={"h6"} fontWeight={550} px={2} pb={2}>
+        {title}
+      </Typography>
+
+      <Box
         sx={{
-          padding: "0 2rem",
-          minWidth: "320px",
-          mt: "4rem",
-          mb: "1rem",
-          pb: 4,
-          backgroundColor: "white",
-          display: { sm: "none", md: "block", xs: "none" },
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 5,
+          paddingX: 5,
+          paddingBottom: 2,
+          overflowX: "auto",
+          "&::-webkit-scrollbar": {
+            width: "3px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#8F309F",
+            borderRadius: "50px",
+            height: "10px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "#f1f1f1", // Set the color of the track
+            borderRadius: "50px", // Set the border radius of the track
+          },
         }}
       >
-        <Typography
-          variant={"h5"}
-          pt={"1rem"}
-          pl={"1rem"}
-          pb="5px"
-          fontWeight={550}
-        >
-          {title}
-        </Typography>
-        <Carousel {...mdSliderSettings}>
-          {productsData?.data?.products?.map((i, index) => (
-            <Wrap key={index}>
-              <HomeProductTemplate product={i} />
-            </Wrap>
-          ))}
-        </Carousel>
-      </Container>
-      <Container
-        sx={{
-          padding: "0 2rem",
-          minWidth: "320px",
-          mt: "4rem",
-          mb: "1rem",
-          backgroundColor: "white",
-          display: { sm: "block", md: "none", xs: "none" },
-        }}
-      >
-        <Typography
-          variant={"h5"}
-          pt={"1rem"}
-          pl={"1rem"}
-          pb="5px"
-          fontWeight={550}
-        >
-          {title}
-        </Typography>
-        <Carousel {...smSliderSettings}>
-          {productsData?.data?.products?.map((item, index) => (
-            <Wrap key={index}>
-              <HomeProductTemplate product={item} />
-            </Wrap>
-          ))}
-        </Carousel>
-      </Container>
-      <Container
-        sx={{
-          padding: "0 2rem",
-          minWidth: "320px",
-          mt: "4rem",
-          mb: "1rem",
-          backgroundColor: "white",
-          display: { sm: "none", md: "none", xs: "block" },
-        }}
-      >
-        <Typography variant={"h6"} pt="0.5rem" pb="5px" fontWeight={550}>
-          {title}
-        </Typography>
-        <Carousel {...xsSliderSettings}>
-          {productsData?.data?.products?.map((i, index) => (
-            <Wrap key={index}>
-              <HomeProductTemplate product={i} />
-            </Wrap>
-          ))}
-        </Carousel>
-      </Container>
-    </>
+        {productsData?.data?.products?.map((product, index) => {
+          return (
+            <Box key={index} sx={{ display: "flex", flexDirection: "row" }}>
+              <HomeProductTemplate product={product} />
+            </Box>
+          );
+        })}
+      </Box>
+    </Container>
   );
 };
 
-const Carousel = styled(Slider)`
-  ul li button {
-    &:before {
-      font-size: 10px;
-      color: #6d258e;
-    }
-  }
-
-  li.slick-active button::before {
-    color: #6d258e;
-    font-size: 11px;
-  }
-
-  .slick-list {
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-  }
-
-  .slick-prev:before,
-  .slick-next:before {
-    // font-size: 25px; /* adjust this value to make the buttons bigger */
-    // color: #6d258e;
-    color: black;
-    height: 30px;
-  }
-`;
-
-const Wrap = styled(Box)(({ theme }) => ({
-  height: "170px",
-  width: "150px",
-}));
-
 export default ProductsCarousel;
-
-/* import React from "react";
-import Slider from "react-slick";
-import "./App.css";
-import BasicCard from "./Card";
-
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "red" }}
-      onClick={onClick}
-    >
-      NEXT
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "green" }}
-      onClick={onClick}
-    >
-      BACK
-    </div>
-  );
-}
-
-export default function App() {
-  const slider = React.useRef(null);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-
-    // customPaging: function (i) {
-    //   return <p>{i + 1}</p>;
-    // },
-
-    responsive: [
-      {
-        breakpoint: 1424,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-
-      {
-        breakpoint: 1124,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 2,
-        },
-      },
-    ],
-
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
-
-  return (
-    <div>
-      <h1 style={{ textAlign: "center", margin: "20px 0px" }}>
-        REACT-SLICK CAROUSEL
-      </h1>
-
-      <div style={{ margin: 20 }}>
-        <button onClick={() => slider?.current?.slickPrev()}>Prev</button>
-        <button
-          style={{ marginLeft: 20 }}
-          onClick={() => slider?.current?.slickNext()}
-        >
-          Next
-        </button>
-      </div>
-
-      <Slider ref={slider} {...settings}>
-        {products?.map((item, index) => {
-          return <BasicCard key={index} item={item} />;
-        })}
-      </Slider>
-    </div>
-  );
-}
-
-const products = [
-  {
-    id: 1,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-  {
-    id: 2,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-  {
-    id: 3,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-  {
-    id: 4,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-
-  {
-    id: 5,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-  {
-    id: 6,
-    image: "https://shravanmeena.netlify.app/static/media/gym.c7d7ed62.png",
-  },
-]; */

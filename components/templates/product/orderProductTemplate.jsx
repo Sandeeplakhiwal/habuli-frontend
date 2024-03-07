@@ -8,6 +8,7 @@ import {
   Typography,
   TextField,
   Button,
+  Link,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { reviewSchema } from "@/schema/product";
@@ -20,6 +21,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { format } from "date-fns";
 // import Image from "next/image";
+import NextLink from "next/link";
 
 const ratingLabels = {
   1: "Useless",
@@ -111,27 +113,40 @@ function OrderProductTemplate({ order, status, deliveryDate, orderItem }) {
       <Box bgcolor={"white"} p={{ md: 1, xs: 0.5 }} pl={1.5} pr={1.5}>
         <Grid container spacing={1}>
           <Grid item xs={2}>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              height={"100%"}
+            <Link
+              component={NextLink}
+              href={`/products/category/${orderItem.product.category}/item/${orderItem.product._id}`}
+              style={{ textDecoration: "none", color: "black" }}
             >
-              <Image
-                src={orderItem.Image || "/images/default-image.webp"}
-                height={200}
-                width={200}
-                alt="san-disk"
-                style={{ height: "90%", width: "90%", objectFit: "contain" }}
-              />
-            </Box>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                height={"100%"}
+              >
+                <Image
+                  src={orderItem.Image || "/images/default-image.webp"}
+                  height={200}
+                  width={200}
+                  alt="san-disk"
+                  style={{ height: "90%", width: "90%", objectFit: "contain" }}
+                />
+              </Box>
+            </Link>
           </Grid>
           <Grid item xs={4}>
             <Box display={"flex"} flexDirection={"column"}>
               <Typography fontSize={{ md: 14, xs: 10 }}>
-                {orderItem.name}
+                <Link
+                  component={NextLink}
+                  href={`/products/category/${orderItem.product.category}/item/${orderItem.product._id}`}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  {orderItem.name}
+                </Link>
               </Typography>
+
               <Typography
                 variant="caption"
                 fontSize={{ xs: 8, md: 12 }}
@@ -151,7 +166,7 @@ function OrderProductTemplate({ order, status, deliveryDate, orderItem }) {
           <Grid item xs={2}>
             <Box>
               <Typography fontSize={{ md: 14, xs: 10 }}>
-                â¹{orderItem.price}
+                ₹{orderItem.price}
               </Typography>
             </Box>
           </Grid>
