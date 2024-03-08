@@ -13,7 +13,8 @@ const Slice = createSlice({
   reducers: {
     addToBuyNowCart: (state, action) => {
       const newItem = action.payload[0];
-      const existingItemIndex = getItemIndex(state.buyNowItems, newItem._id);
+
+      const existingItemIndex = getItemIndex(state.buyNowItems, newItem?._id);
 
       if (existingItemIndex !== -1) {
         state.buyNowItems[existingItemIndex].quantity += 1;
@@ -38,6 +39,7 @@ const Slice = createSlice({
     },
     resetBuyNowCart: (state, action) => {
       state.buyNowItems = [];
+      state.buyNowPrices = null;
     },
   },
 });

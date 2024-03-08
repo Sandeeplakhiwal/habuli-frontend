@@ -67,7 +67,7 @@ const Wrap = styled(Box)`
   height: 50vh;
   min-width: 320px;
   @media (max-width: 768px) {
-    height: 25vh;
+    height: 30vh;
   }
   a {
     object-fit: contain;
@@ -78,7 +78,7 @@ const Wrap = styled(Box)`
       width: 100%;
       height: 100%;
       transition-duration: 300ms;
-      object-fit: contain;
+      object-fit: cover;
       min-width: 320px;
     }
   }

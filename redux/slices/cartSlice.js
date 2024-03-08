@@ -16,8 +16,10 @@ const Slice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      if (getItemIndex(state.cartItems, action.payload?._id) !== -1) {
-        let index = getItemIndex(state.cartItems, action.payload._id);
+      const { _id, quantity } = action.payload;
+
+      if (getItemIndex(state.cartItems, _id) !== -1) {
+        let index = getItemIndex(state.cartItems, _id);
         state.cartItems[index].quantity += 1;
       } else {
         state.cartItems.push(action.payload);

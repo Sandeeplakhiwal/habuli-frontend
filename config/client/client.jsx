@@ -41,7 +41,7 @@ export const ContextProvider = ({ children }) => {
         <AuthProvider>
           <>
             {children}
-            <Toaster position="top-right" reverseOrder={false} />
+            <Toaster position={"bottom-center"} reverseOrder={false} />
             <ReactQueryDevtools buttonPosition="bottom-left" />
           </>
         </AuthProvider>
