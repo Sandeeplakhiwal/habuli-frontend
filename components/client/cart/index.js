@@ -18,13 +18,14 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BuyNowItem } from "../checkout";
+import { useRouter } from "next/navigation";
 
 export const PriceDetailsList = ({ items }) => {
   const dispatch = useDispatch();
   const { cartPrices } = useSelector((state) => state.cart);
   const productIds = [];
   items.forEach((item) => {
-    productIds.push(item._id);
+    productIds.push(item?._id);
   });
   const {
     data: cartProductsData,
@@ -50,7 +51,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Price"
-          secondary={`â¹${cartPrices ? cartPrices.itemsPrice : 0}`}
+          secondary={`${cartPrices ? cartPrices.itemsPrice : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -61,7 +62,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Delivery charges"
-          secondary={`â¹${cartPrices ? cartPrices.shippingCharges : 0}`}
+          secondary={`${cartPrices ? cartPrices.shippingCharges : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -72,7 +73,7 @@ export const PriceDetailsList = ({ items }) => {
             justifyContent: "space-between",
           }}
           primary="Tax"
-          secondary={`â¹${cartPrices ? cartPrices.taxPrice : 0}`}
+          secondary={`${cartPrices ? cartPrices.taxPrice : 0}`}
         />
       </ListItem>
       <ListItem>
@@ -85,7 +86,7 @@ export const PriceDetailsList = ({ items }) => {
             padding: 1,
           }}
           primary="Total amount"
-          secondary={`â¹${cartPrices ? cartPrices.totalAmount : 0}`}
+          secondary={`${cartPrices ? cartPrices.totalAmount : 0}`}
         />
       </ListItem>
     </List>
@@ -118,13 +119,19 @@ export const DeliveryAddressComp = () => {
 export const PlaceOrderButton = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  function handlePlaceOrder(e) {
-    if (cartItems.length) {
-      cartItems.map((item) => dispatch(addToBuyNowCart(item)));
-    }
 
-    if (!cartItems.length) {
-      e.preventDefault();
+  const router = useRouter();
+
+  function handlePlaceOrder(e) {
+    console.log(cartItems.length);
+    console.log(cartItems);
+    if (cartItems.length > 0) {
+      console.log("chla kya??");
+      cartItems.forEach((item) => {
+        console.log(item);
+        dispatch(addToBuyNowCart([{ _id: item._id, quantity: item.quantity }]));
+      });
+      router.push("/checkout/init");
     }
   }
   return (
@@ -136,15 +143,15 @@ export const PlaceOrderButton = () => {
       textAlign={"right"}
       sx={{ boxShadow: "0px -2px 4px 0px rgba(0, 0, 0, 0.2)" }}
     >
-      <Link href={"/checkout/init"} onClick={(e) => handlePlaceOrder}>
-        <Button
-          variant={"contained"}
-          onClick={(e) => handlePlaceOrder(e)}
-          disabled={!cartItems.length}
-        >
-          Place Order
-        </Button>
-      </Link>
+      {/* <Link href={"/checkout/init"} onClick={(e) => handlePlaceOrder}> */}
+      <Button
+        variant={"contained"}
+        onClick={(e) => handlePlaceOrder(e)}
+        disabled={!cartItems.length}
+      >
+        Place Order
+      </Button>
+      {/*  </Link> */}
     </Box>
   );
 };

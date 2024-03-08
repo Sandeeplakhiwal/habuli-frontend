@@ -36,6 +36,7 @@ import {
   decrementBuyNowItem,
   incrementBuyNowItem,
   removeFromBuyNowCart,
+  resetBuyNowCart,
 } from "@/redux/slices/buyNowSlice";
 import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
@@ -44,6 +45,9 @@ import Image from "next/image";
 export function CheckBoxes() {
   const { buyNowItems } = useSelector((state) => state.buynow);
   const router = useRouter();
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (buyNowItems?.length === 0) {
       console.log("chla");
@@ -516,7 +520,7 @@ export function BuyNowItem({
           >
             Seller: {product ? product.user.name : ""}
           </Typography>
-          <Typography mt={0.5} variant={"subtitle2"}>{`â¹${
+          <Typography mt={0.5} variant={"subtitle2"}>{`${
             product
               ? product.price *
                 (buyNowItems
