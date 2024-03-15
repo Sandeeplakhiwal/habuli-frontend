@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 import toast from "react-hot-toast";
 import { addToBuyNowCart } from "@/redux/slices/buyNowSlice";
+import Head from "next/head";
 
 function DetailedProductComponent() {
   const params = useParams();
@@ -43,45 +44,68 @@ function DetailedProductComponent() {
     router.push("/checkout/init");
   };
 
+  // Metadata
+  const title = data?.data?.product?.name || "Product";
+  const description = data?.data?.product?.description || "Product description";
+  const imageUrl = data?.data?.product?.imageUrl || "/default-image.webp"; // Provide a default image URL if the product image is not available
+
   return (
-    <Grid
-      container
-      spacing={1}
-      pt={"5vh"}
-      pl={"1vw"}
-      pr={"4px"}
-      bgcolor={"white"}
-    >
-      <Grid item sm={1} xs={2}>
-        <Grid item xs={12}>
-          <ListImgComponent />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content={`https://habuli.vercel.app/products/${params.pId}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl} />
+      </Head>
+      <Grid
+        container
+        spacing={1}
+        pt={"5vh"}
+        pl={"1vw"}
+        pr={"4px"}
+        bgcolor={"white"}
+      >
+        <Grid item sm={1} xs={2}>
+          <Grid item xs={12}>
+            <ListImgComponent />
+          </Grid>
+          <Grid item xs={12}>
+            <ListImgComponent />
+          </Grid>
+          <Grid item xs={12}>
+            <ListImgComponent />
+          </Grid>
+          <Grid item xs={12}>
+            <ListImgComponent />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <ListImgComponent />
+        <Grid item sm={4} xs={10}>
+          <Grid item xs={12}>
+            <ProductImageBox product={data?.data?.product} />
+          </Grid>
+          <Grid item xs={10}>
+            <ProductActionButtonBox
+              id={data?.data?.product?._id}
+              handleAddToCart={addToCartHandler}
+              handleBuyNowBtn={buyNowBtnHandler}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <ListImgComponent />
-        </Grid>
-        <Grid item xs={12}>
-          <ListImgComponent />
+        <Grid item sm={7} xs={12}>
+          <DetailsBoxContainer product={data?.data?.product} />
         </Grid>
       </Grid>
-      <Grid item sm={4} xs={10}>
-        <Grid item xs={12}>
-          <ProductImageBox product={data?.data?.product} />
-        </Grid>
-        <Grid item xs={10}>
-          <ProductActionButtonBox
-            id={data?.data?.product?._id}
-            handleAddToCart={addToCartHandler}
-            handleBuyNowBtn={buyNowBtnHandler}
-          />
-        </Grid>
-      </Grid>
-      <Grid item sm={7} xs={12}>
-        <DetailsBoxContainer product={data?.data?.product} />
-      </Grid>
-    </Grid>
+    </>
   );
 }
 
