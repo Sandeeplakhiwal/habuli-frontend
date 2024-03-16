@@ -8,15 +8,16 @@ import { useSelector } from "react-redux";
 
 function Page() {
   return (
-    <Box sx={{ mb: 4 }}>
+    <Box sx={{ mb: 4 }} maxWidth={"xl"} mx={"auto"}>
       <Grid container gap={2}>
-        <Grid item xs={12} sm={7}>
+        <Grid item sm={12} md={7}>
           <CheckBoxes />
         </Grid>
         <Grid
           item
           xs={12}
-          sm={3}
+          sm={12}
+          md={3}
           height={"auto"}
           mt={1}
           sx={{ px: { xs: 1, sm: 0 } }}

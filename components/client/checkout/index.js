@@ -477,7 +477,6 @@ export function BuyNowItem({
     }
   }, [cartProductsData, cartProductsSuccess, dispatch]);
   const isMobile = useMediaQuery("(max-width:600px)");
-  console.log("Is Mobile", isMobile);
   return (
     <Box mb={2}>
       <Grid container gap={2}>

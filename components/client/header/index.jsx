@@ -23,6 +23,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { addToBuyNowCart } from "@/redux/slices/buyNowSlice";
+import { PageRoutes } from "@/constants/routes";
 
 function HeaderComponent() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -87,7 +88,7 @@ function HeaderComponent() {
   return (
     <Box
       width={"full"}
-      maxWidth={"1440px"}
+      maxWidth={"xl"}
       mx={"auto"}
       position={"sticky"}
       top={0}
@@ -97,7 +98,7 @@ function HeaderComponent() {
         position="static"
         sx={{
           minWidth: "320px",
-          height: { xs: "40px", sm: "auto" },
+          height: { xs: "40px", sm: 80 },
           justifyContent: "center",
         }}
       >
@@ -107,7 +108,12 @@ function HeaderComponent() {
               Habuli
             </LogoText>
           </LogoBox>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, flex: 1 }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              flex: 1,
+            }}
+          >
             <Search style={{ width: "full", display: "flex", flex: 1 }}>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -128,9 +134,10 @@ function HeaderComponent() {
             <CustomLink
               component={NextLink}
               href={isAuthenticated ? "/" : "/auth/signup"}
+              display={{ sm: "none", md: "block" }}
             >
               <NavButton color="inherit">
-                Become a <NavSpan>Influencer</NavSpan>
+                Become a <NavSpan>Seller</NavSpan>
               </NavButton>
             </CustomLink>
             <CustomLink
@@ -151,7 +158,7 @@ function HeaderComponent() {
                 pb: 1,
               }}
               component={NextLink}
-              href="/cart"
+              href={PageRoutes.CART}
             >
               <NavButton color="inherit">
                 <Badge
@@ -164,8 +171,12 @@ function HeaderComponent() {
             </Link>
           </MdStack>
           <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
-            <AccountIcon onClick={handleClick} />
-            <Link sx={{ color: "#fff" }} component={NextLink} href={"/cart"}>
+            <AccountIcon onClick={handleClick} sx={{ cursor: "pointer" }} />
+            <Link
+              sx={{ color: "#fff" }}
+              component={NextLink}
+              href={PageRoutes.CART}
+            >
               <Badge
                 badgeContent={cartItems ? cartItems.length : 0}
                 color="badgeColor"
@@ -185,6 +196,7 @@ function HeaderComponent() {
             elevation: 0,
             sx: {
               overflow: "visible",
+              cursor: "pointer",
               filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               mt: 1.5,
               "& .MuiAvatar-root": {
@@ -211,12 +223,20 @@ function HeaderComponent() {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <MenuItem onClick={handleClose}>
-            <Link component={NextLink} href={"/account"}>
+            <Link
+              component={NextLink}
+              href={PageRoutes.ACCOUNT}
+              style={{ textDecoration: "none", fontSize: "12px" }}
+            >
               My Account
             </Link>
           </MenuItem>
           <MenuItem onClick={handleClose}>
-            <Link component={NextLink} href={"/auth/login"}>
+            <Link
+              component={NextLink}
+              href={PageRoutes.ORDERS}
+              style={{ textDecoration: "none", fontSize: "12px" }}
+            >
               Orders
             </Link>
           </MenuItem>
@@ -231,6 +251,7 @@ function HeaderComponent() {
           px: 1,
           bgcolor: "#6D258E",
         }}
+        minWidth={"xl"}
       >
         <Search
           style={{
@@ -306,7 +327,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 
   [theme.breakpoints.down("sm")]: {
     padding: theme.spacing(0, 1),
-    backgroundColor: "gold",
+    // backgroundColor: "gold",
     borderRadius: "0 5px 5px 0",
   },
 }));

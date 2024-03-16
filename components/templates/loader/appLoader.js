@@ -7,7 +7,7 @@ const pageStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: "90vh",
+  height: "100vh",
   overflow: "hidden",
   //   background: `linear-gradient(45deg, #A1C4FD 30%, #C2E9FB 90%)`,
   backgroundColor: "white",

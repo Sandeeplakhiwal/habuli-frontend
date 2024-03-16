@@ -1,5 +1,6 @@
 import { getRazorpayApiKeyApi } from "@/api/order";
 import { LoadUserApi } from "@/api/user";
+import AppLoader from "@/components/templates/loader/appLoader";
 import { loadUser } from "@/redux/slices/userSlice";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -24,5 +25,5 @@ export const AuthProvider = ({ children }) => {
       dispatch(loadUser(userLoadData.data?.user));
     }
   }, [userLoadData, userLoadError, userLoading]);
-  return children;
+  return userLoading ? <AppLoader /> : children;
 };

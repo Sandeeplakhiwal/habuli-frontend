@@ -10,10 +10,13 @@ import { useDispatch } from "react-redux";
 
 function HomeProductsCarouselWrapper() {
   const dispatch = useDispatch();
-  const { isLoading, data, error } = useQuery({
-    queryKey: ["categoryProducts"],
-    // queryFn: () => getCategoryProductsApi("tv"),
-    queryFn: () => getAllProductsApi(),
+  const { data: smartPhoneCategoryData } = useQuery({
+    queryKey: ["categoryProducts", "smartphone"],
+    queryFn: getCategoryProductsApi,
+  });
+  const { data: electronicsCategoryData } = useQuery({
+    queryKey: ["categoryProducts", "electronics"],
+    queryFn: getCategoryProductsApi,
   });
 
   const {
@@ -28,12 +31,21 @@ function HomeProductsCarouselWrapper() {
     }
   }, [userLoadData, userLoadError, userLoading, dispatch, userLoadSuccess]);
 
-  const productsData = data ? data : [];
+  const smartPhoneCategoryProducts = smartPhoneCategoryData
+    ? smartPhoneCategoryData
+    : [];
+  const electronicsCategoryProducts = electronicsCategoryData
+    ? electronicsCategoryData
+    : [];
   return (
     <>
       <ProductsCarousel
         title={"Best of electronics"}
-        productsData={productsData}
+        productsData={electronicsCategoryProducts}
+      />
+      <ProductsCarousel
+        title={"Best of smartphones"}
+        productsData={smartPhoneCategoryProducts}
       />
     </>
   );

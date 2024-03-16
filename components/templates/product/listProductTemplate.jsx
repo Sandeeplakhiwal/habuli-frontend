@@ -47,21 +47,6 @@ function ListProductTemplate({ product }) {
             <PruductDetailList>
               <ProductDetailTypo>{product?.description}</ProductDetailTypo>
             </PruductDetailList>
-            <PruductDetailList>
-              <ProductDetailTypo>Effective Pixels: 24.3 MP</ProductDetailTypo>
-            </PruductDetailList>
-            <PruductDetailList>
-              <ProductDetailTypo>Sensor Type: CMOS</ProductDetailTypo>
-            </PruductDetailList>
-            <PruductDetailList>
-              <ProductDetailTypo>WiFi Available</ProductDetailTypo>
-            </PruductDetailList>
-            <PruductDetailList>
-              <ProductDetailTypo>Full HD</ProductDetailTypo>
-            </PruductDetailList>
-            <PruductDetailList>
-              <ProductDetailTypo>2 Year Warranty</ProductDetailTypo>
-            </PruductDetailList>
           </ProductDetailUL>
         </ProductDetailBox>
         <ProductPriceBox>
@@ -96,8 +81,9 @@ const CustomWrapperLink = styled(Link)(({ theme }) => ({
 
 const ImageBox = styled(Box)`
   width: 25%;
-  padding-top: 50px;
+  height: 100%;
   padding-right: 10px;
+  margin: auto 0;
   img {
     width: 100%;
     height: 100%;

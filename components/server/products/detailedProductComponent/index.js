@@ -5,7 +5,7 @@ import {
   ProductActionButtonBox,
   ProductImageBox,
 } from "@/components/client/detailedProductComponent";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -67,44 +67,46 @@ function DetailedProductComponent() {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
       </Head>
-      <Grid
-        container
-        spacing={1}
-        pt={"5vh"}
-        pl={"1vw"}
-        pr={"4px"}
-        bgcolor={"white"}
-      >
-        <Grid item sm={1} xs={2}>
-          <Grid item xs={12}>
-            <ListImgComponent />
+      <Box maxWidth={"xl"} mx={"auto"}>
+        <Grid
+          container
+          spacing={1}
+          pt={"5vh"}
+          pl={"1vw"}
+          pr={"4px"}
+          bgcolor={"white"}
+        >
+          <Grid item sm={1} xs={2}>
+            <Grid item xs={12}>
+              <ListImgComponent />
+            </Grid>
+            <Grid item xs={12}>
+              <ListImgComponent />
+            </Grid>
+            <Grid item xs={12}>
+              <ListImgComponent />
+            </Grid>
+            <Grid item xs={12}>
+              <ListImgComponent />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <ListImgComponent />
+          <Grid item sm={4} xs={10}>
+            <Grid item xs={12}>
+              <ProductImageBox product={data?.data?.product} />
+            </Grid>
+            <Grid item xs={10}>
+              <ProductActionButtonBox
+                id={data?.data?.product?._id}
+                handleAddToCart={addToCartHandler}
+                handleBuyNowBtn={buyNowBtnHandler}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <ListImgComponent />
-          </Grid>
-          <Grid item xs={12}>
-            <ListImgComponent />
+          <Grid item sm={7} xs={12}>
+            <DetailsBoxContainer product={data?.data?.product} />
           </Grid>
         </Grid>
-        <Grid item sm={4} xs={10}>
-          <Grid item xs={12}>
-            <ProductImageBox product={data?.data?.product} />
-          </Grid>
-          <Grid item xs={10}>
-            <ProductActionButtonBox
-              id={data?.data?.product?._id}
-              handleAddToCart={addToCartHandler}
-              handleBuyNowBtn={buyNowBtnHandler}
-            />
-          </Grid>
-        </Grid>
-        <Grid item sm={7} xs={12}>
-          <DetailsBoxContainer product={data?.data?.product} />
-        </Grid>
-      </Grid>
+      </Box>
     </>
   );
 }

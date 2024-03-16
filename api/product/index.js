@@ -2,7 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { server } from "@/redux/store";
 
-export const getCategoryProductsApi = (category) => {
+export const getCategoryProductsApi = ({ queryKey }) => {
+  const category = queryKey[1];
   return axios.get(`${server}/products?category=${category}`, {
     withCredentials: true,
   });

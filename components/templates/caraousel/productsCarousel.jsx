@@ -22,7 +22,7 @@ const ProductsCarousel = ({ title, productsData }) => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: { sm: "space-evenly", xs: "space-between" },
           gap: 5,
           paddingX: 5,
           paddingBottom: 2,
@@ -43,7 +43,13 @@ const ProductsCarousel = ({ title, productsData }) => {
       >
         {productsData?.data?.products?.map((product, index) => {
           return (
-            <Box key={index} sx={{ display: "flex", flexDirection: "row" }}>
+            <Box
+              key={index}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
               <HomeProductTemplate product={product} />
             </Box>
           );
