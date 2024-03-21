@@ -8,22 +8,31 @@ import { useDispatch } from "react-redux";
 
 export const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
+  const [authChecked, setAuthChecked] = useState(false);
+  const [letEnter, setLetEnter] = useState(false);
+
   const {
     data: userLoadData,
-    error: userLoadError,
     isLoading: userLoading,
-    isSuccess: userLoadSuccess,
-  } = useQuery({ queryKey: ["user"], queryFn: LoadUserApi });
-
-  const { data: razorpayKeyData, isSuccess: razorpayKeySuccess } = useQuery({
-    queryKey: ["get-razorpay-api-key"],
-    queryFn: getRazorpayApiKeyApi,
+    error: userLoadError,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: LoadUserApi,
+    refetchOnWindowFocus: false,
+    retry: 1,
+    enabled: !authChecked,
   });
 
   useEffect(() => {
-    if (userLoadData && userLoadSuccess) {
+    if (userLoadData || userLoadError) setAuthChecked(true);
+    if (userLoadData) {
       dispatch(loadUser(userLoadData.data?.user));
+      setLetEnter(true);
     }
-  }, [userLoadData, userLoadError, userLoading]);
-  return userLoading ? <AppLoader /> : children;
+    if (userLoadError) {
+      setLetEnter(true);
+    }
+  }, [authChecked, userLoadData, userLoadError, dispatch]);
+
+  return letEnter ? children : <AppLoader />;
 };

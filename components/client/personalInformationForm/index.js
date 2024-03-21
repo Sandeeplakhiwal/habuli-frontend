@@ -49,8 +49,6 @@ function PersonalInformationForm() {
     },
   });
 
-  console.log(profileErrors);
-
   return (
     <Box mt={2} p={1}>
       <Typography alignItems={"center"}>

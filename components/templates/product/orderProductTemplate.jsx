@@ -47,8 +47,6 @@ function OrderProductTemplate({ order, status, deliveryDate, orderItem }) {
     comment: "",
   };
 
-  console.log(orderItem);
-
   const {
     values,
     errors,

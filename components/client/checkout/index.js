@@ -50,7 +50,6 @@ export function CheckBoxes() {
 
   useEffect(() => {
     if (buyNowItems?.length === 0) {
-      console.log("chla");
       router.push("/");
     }
   }, [buyNowItems?.length, router]);

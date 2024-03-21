@@ -29,11 +29,7 @@ export default async function handler(req, res) {
         amount: response.amount,
       });
     } catch (err) {
-      console.log(err);
       res.status(400).json(err);
     }
-  } else {
-    // Handle any other HTTP method
-    console.log("nothing");
   }
 }

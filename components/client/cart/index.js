@@ -123,12 +123,8 @@ export const PlaceOrderButton = () => {
   const router = useRouter();
 
   function handlePlaceOrder(e) {
-    console.log(cartItems.length);
-    console.log(cartItems);
     if (cartItems.length > 0) {
-      console.log("chla kya??");
       cartItems.forEach((item) => {
-        console.log(item);
         dispatch(addToBuyNowCart([{ _id: item._id, quantity: item.quantity }]));
       });
       router.push("/checkout/init");

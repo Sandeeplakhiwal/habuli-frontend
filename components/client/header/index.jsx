@@ -58,14 +58,12 @@ function HeaderComponent() {
       if (itemsInLocalStorage && itemsInLocalStorage.length) {
         itemsInLocalStorage.forEach((element) => {
           dispatch(addToCart(element));
-          console.log("dispatched", element);
         });
       }
 
       if (buyNowItemsInLocalStorage && buyNowItemsInLocalStorage.length) {
         buyNowItemsInLocalStorage.forEach((element) => {
           dispatch(addToBuyNowCart([element]));
-          console.log("buy Now Dispatched", element);
         });
       }
 
@@ -76,13 +74,11 @@ function HeaderComponent() {
   useEffect(() => {
     // Update local storage whenever cartItems change
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    console.log("CartItems updated in localStorage");
   }, [cartItems]);
 
   useEffect(() => {
     // Update local storage whenever cartItems change
     localStorage.setItem("buyNowItems", JSON.stringify(buyNowItems));
-    console.log("buyNowItems updated in localStorage");
   }, [buyNowItems]);
 
   return (

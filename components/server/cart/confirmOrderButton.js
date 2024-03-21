@@ -39,8 +39,6 @@ export const ConfirmOrderButton = () => {
 
   const router = useRouter();
 
-  // console.log("cartPrices", cartPrices);
-
   useEffect(() => {
     if (cartPrices) {
       dispatch(addPricesToOrder(cartPrices));
