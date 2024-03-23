@@ -20,6 +20,9 @@ function CartComponent() {
         pl: { sm: 2, xs: 0 },
         pr: { sm: 2, xs: 0 },
       }}
+      maxWidth={"xl"}
+      minWidth={"320px"}
+      mx={"auto"}
     >
       <Grid container gap={2}>
         <Grid item xs={12} md={7} sm={12}>

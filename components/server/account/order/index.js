@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchOrdersApi } from "@/api/order";
 import { useSelector } from "react-redux";
 import OrderProductTemplate from "@/components/templates/product/orderProductTemplate";
+import AppLoader from "@/components/templates/loader/appLoader";
 
 function getDeliveryDate(createdAt) {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -66,54 +67,48 @@ function OrderComponent() {
     };
   }, [ordersData, ordersSuccess, handleSearch]);
 
-  return (
-    <Box mt={2}>
-      {ordersIsLoading ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        <>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              type="text"
-              value={keyword}
-              onChange={(e) => {
-                setKeyword(e.target.value);
-              }}
-              fullWidth
-              onKeyDown={(e) =>
-                e.key === "Enter" ? handleSearch(orders) : null
-              }
-              autoFocus={true}
+  return ordersIsLoading ? (
+    <AppLoader />
+  ) : (
+    <Box mt={2} maxWidth={"xl"} minWidth={"320px"} mx={"auto"}>
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+          type="text"
+          value={keyword}
+          onChange={(e) => {
+            setKeyword(e.target.value);
+          }}
+          fullWidth
+          onKeyDown={(e) => (e.key === "Enter" ? handleSearch(orders) : null)}
+          autoFocus={true}
+        />
+      </Search>
+      {filteredOrders.length >= 1 ? (
+        filteredOrders.map((order, index) =>
+          order?.orderItems?.map((orderItem, indx) => (
+            <OrderProductTemplate
+              key={indx}
+              order={order}
+              status={order ? order.orderStatus : ""}
+              deliveryDate={getDeliveryDate(order ? order.createdAt : "")}
+              orderItem={orderItem}
             />
-          </Search>
-          {filteredOrders.length >= 1 ? (
-            filteredOrders.map((order, index) =>
-              order?.orderItems?.map((orderItem, indx) => (
-                <OrderProductTemplate
-                  key={indx}
-                  order={order}
-                  status={order ? order.orderStatus : ""}
-                  deliveryDate={getDeliveryDate(order ? order.createdAt : "")}
-                  orderItem={orderItem}
-                />
-              ))
-            )
-          ) : (
-            <Typography
-              variant="h4"
-              textAlign="center"
-              color="primary"
-              sx={{ cursor: "alias" }}
-            >
-              No Orders Yet!
-            </Typography>
-          )}
-        </>
+          ))
+        )
+      ) : (
+        <Typography
+          variant="h4"
+          textAlign="center"
+          color="primary"
+          sx={{ cursor: "alias" }}
+        >
+          No Orders Yet!
+        </Typography>
       )}
     </Box>
   );

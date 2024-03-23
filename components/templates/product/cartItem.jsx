@@ -7,7 +7,14 @@ import {
   removeFromCart,
 } from "@/redux/slices/cartSlice";
 import styled from "@emotion/styled";
-import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useEffect } from "react";
@@ -69,18 +76,28 @@ function CartItem({
     }
   }, [cartProductsData, cartProductsSuccess, dispatch]);
 
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   return (
     <Box mb={2}>
       <Grid container gap={1}>
-        <Grid item xs={3}>
-          <ImgBox>
+        <Grid item md={3} sm={3} xs={4}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
             <Image
               src={product?.images?.[0]?.url || "/images/default-image.webp"}
-              alt="item-img"
-              height={90}
-              width={150}
+              height={isMobile ? 100 : 150}
+              width={isMobile ? 150 : 100}
+              sizes="(max-width: 576px) 200px, (max-width: 768px) 250px, 250px"
+              alt={product?.name || "ProductImg"}
+              style={{ objectFit: "contain" }}
             />
-          </ImgBox>
+          </Box>
         </Grid>
         <Grid item xs={5} display={"flex"} flexDirection={"column"}>
           <Typography
@@ -115,10 +132,17 @@ function CartItem({
               : 0
           }`}</Typography>
         </Grid>
-        <Grid item xs={3}>
-          <Typography fontSize={{ sm: 14, xs: 12 }} textAlign={"right"}>
-            {`Delivery by ${deliveryDateFormatted}`}
-          </Typography>
+        <Grid item md={3} sm={3} xs={12}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Typography fontSize={{ sm: 14, xs: 12 }} textAlign={"right"}>
+              {`Delivery by ${deliveryDateFormatted}`}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
       <Grid container sx={{ flexDirection: "row", alignItems: "center" }}>

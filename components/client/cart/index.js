@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BuyNowItem } from "../checkout";
 import { useRouter } from "next/navigation";
+import CartItemTestTemplate from "@/components/test-templates/CartItemTestTemplate";
 
 export const PriceDetailsList = ({ items }) => {
   const dispatch = useDispatch();
@@ -202,6 +203,7 @@ export const CartItemsWrapper = ({ items, isCart = false }) => {
           cartProductsSuccess={cartProductsSuccess}
         />
       ) : (
+        // <CartItemTestTemplate key={item._id} product={item} />
         <BuyNowItem
           key={item._id}
           product={item}

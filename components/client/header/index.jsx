@@ -83,17 +83,16 @@ function HeaderComponent() {
 
   return (
     <Box
-      width={"full"}
       maxWidth={"xl"}
       mx={"auto"}
       position={"sticky"}
       top={0}
       zIndex={100}
+      minWidth={"320px"}
     >
       <AppBar
         position="static"
         sx={{
-          minWidth: "320px",
           height: { xs: "40px", sm: 80 },
           justifyContent: "center",
         }}
@@ -247,7 +246,7 @@ function HeaderComponent() {
           px: 1,
           bgcolor: "#6D258E",
         }}
-        minWidth={"xl"}
+        minWidth={"320px"}
       >
         <Search
           style={{

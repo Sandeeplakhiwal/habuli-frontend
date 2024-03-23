@@ -5,6 +5,7 @@ import React from "react";
 import { server } from "@/redux/store";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import ListProductTestTemplate from "@/components/test-templates/ListProductTestTemplate";
 
 function ListProductsWrapper() {
   const params = useParams();
@@ -20,7 +21,8 @@ function ListProductsWrapper() {
   return (
     <>
       {data?.data?.products?.map((product, index) => (
-        <ListProductTemplate key={index} product={product} />
+        // <ListProductTemplate key={index} product={product} />
+        <ListProductTestTemplate key={index} product={product} />
       ))}
     </>
   );
