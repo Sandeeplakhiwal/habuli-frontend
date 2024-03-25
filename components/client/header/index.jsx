@@ -166,7 +166,13 @@ function HeaderComponent() {
             </Link>
           </MdStack>
           <XsStack direction={"row"} spacing={{ xs: 0.001, sm: 2 }}>
-            <AccountIcon onClick={handleClick} sx={{ cursor: "pointer" }} />
+            {!isAuthenticated ? (
+              <Link color={"#fff"} component={NextLink} href={PageRoutes.LOGIN}>
+                <LoginIcon />
+              </Link>
+            ) : (
+              <AccountIcon onClick={handleClick} sx={{ cursor: "pointer" }} />
+            )}
             <Link
               sx={{ color: "#fff" }}
               component={NextLink}

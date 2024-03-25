@@ -57,14 +57,14 @@ function ListProductTestTemplate({ product }) {
             style={{ textDecoration: "none" }}
           >
             <Typography
-              variant={isMobile ? "subtitle1" : "h6"}
+              variant={isMobile ? "subtitle2" : "h6"}
               color={"black"}
               fontWeight={500}
             >
               {product && product.name}
             </Typography>
           </Link>
-          <Typography>
+          <Typography variant={isMobile ? "caption" : "subtitle2"}>
             {product
               ? `${product.ratings.toFixed(1)} ★ ${
                   product.reviews.length

@@ -9,7 +9,7 @@ import { Box, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { server } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
@@ -19,6 +19,9 @@ import Head from "next/head";
 
 function DetailedProductComponent() {
   const params = useParams();
+  const [pImage, setPImage] = useState("");
+  const [product, setProduct] = useState({});
+
   const getDetailedProductApi = (pId) => {
     return axios.get(`${server}/product/${pId}`, {
       withCredentials: true,
@@ -28,6 +31,17 @@ function DetailedProductComponent() {
     queryKey: ["DetailedProduct"],
     queryFn: () => getDetailedProductApi(params.pId),
   });
+
+  useEffect(() => {
+    if (data) {
+      setProduct(data?.data?.product);
+    }
+
+    return () => {
+      setPImage("");
+      setProduct({});
+    };
+  }, [data]);
 
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -48,6 +62,10 @@ function DetailedProductComponent() {
   const title = data?.data?.product?.name || "Product";
   const description = data?.data?.product?.description || "Product description";
   const imageUrl = data?.data?.product?.imageUrl || "/default-image.webp"; // Provide a default image URL if the product image is not available
+
+  const handleImgClick = (img) => {
+    setPImage(img?.url);
+  };
 
   return (
     <>
@@ -77,22 +95,16 @@ function DetailedProductComponent() {
           bgcolor={"white"}
         >
           <Grid item sm={1} xs={2}>
-            <Grid item xs={12}>
-              <ListImgComponent />
-            </Grid>
-            <Grid item xs={12}>
-              <ListImgComponent />
-            </Grid>
-            <Grid item xs={12}>
-              <ListImgComponent />
-            </Grid>
-            <Grid item xs={12}>
-              <ListImgComponent />
-            </Grid>
+            {product &&
+              product?.images?.map((img, index) => (
+                <Grid item xs={12} key={index}>
+                  <ListImgComponent img={img} handleClick={handleImgClick} />
+                </Grid>
+              ))}
           </Grid>
           <Grid item sm={4} xs={10}>
             <Grid item xs={12}>
-              <ProductImageBox product={data?.data?.product} />
+              <ProductImageBox product={data?.data?.product} img={pImage} />
             </Grid>
             <Grid item xs={10}>
               <ProductActionButtonBox

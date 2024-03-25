@@ -35,11 +35,11 @@ const ratingLabels = {
   5: "Excellent",
 };
 
-export const ListImgComponent = ({ product = {} }) => {
+export const ListImgComponent = ({ product = {}, img, handleClick }) => {
   return (
-    <CustomContainerBox>
+    <CustomContainerBox onClick={() => handleClick(img)}>
       <Image
-        src={product?.images?.[0]?.url || "/images/default-image.webp"}
+        src={img?.url || "/images/default-image.webp"}
         height={40}
         width={40}
         alt="camera"
@@ -48,11 +48,11 @@ export const ListImgComponent = ({ product = {} }) => {
   );
 };
 
-export const ProductImageBox = ({ product = {} }) => {
+export const ProductImageBox = ({ product = {}, img }) => {
   return (
     <CustomProductImageBox>
       <Image
-        src={product?.images?.[0]?.url || "/images/default-image.webp"}
+        src={img || product?.images?.[0]?.url || "/images/default-image.webp"}
         height={300}
         width={350}
         alt="san-disk"
