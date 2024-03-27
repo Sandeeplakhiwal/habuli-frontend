@@ -50,6 +50,7 @@ export const {
   addToCart,
   addCartPrices,
   removeFromCart,
+  removeCartPrices,
   incrementCartItem,
   decrementCartItem,
 } = Slice.actions;

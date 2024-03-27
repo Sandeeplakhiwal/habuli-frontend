@@ -1,9 +1,11 @@
 "use client";
+import { removeBuyNowPrices } from "@/redux/slices/buyNowSlice";
 import {
   addCartPrices,
   decrementCartItem,
   getItemIndex,
   incrementCartItem,
+  removeCartPrices,
   removeFromCart,
 } from "@/redux/slices/cartSlice";
 import styled from "@emotion/styled";
@@ -55,6 +57,8 @@ function CartItem({
 
   const handleRemoveItem = (id = "") => {
     dispatch(removeFromCart({ _id: id }));
+    dispatch(removeCartPrices());
+    dispatch(removeBuyNowPrices());
     queryClient.invalidateQueries({ queryKey: ["cart-items"] });
     toast.success("Item has removed");
   };

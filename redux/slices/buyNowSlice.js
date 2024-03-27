@@ -29,6 +29,9 @@ const Slice = createSlice({
       let index = getItemIndex(state.buyNowItems, action.payload?._id);
       state.buyNowItems.splice(index, 1);
     },
+    removeBuyNowPrices: (state, action) => {
+      state.buyNowPrices = null;
+    },
     incrementBuyNowItem: (state, action) => {
       let index = getItemIndex(state.buyNowItems, action.payload?._id);
       state.buyNowItems[index].quantity += 1;
@@ -50,6 +53,7 @@ export const {
   incrementBuyNowItem,
   decrementBuyNowItem,
   resetBuyNowCart,
+  removeBuyNowPrices,
 } = Slice.actions;
 
 export default Slice.reducer;

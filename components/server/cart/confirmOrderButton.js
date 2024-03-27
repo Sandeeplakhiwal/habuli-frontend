@@ -19,6 +19,8 @@ export const ConfirmOrderButton = () => {
   const { orderDetails } = useSelector((state) => state.order);
   const { buyNowItems } = useSelector((state) => state.buynow);
 
+  const router = useRouter();
+
   const dispatch = useDispatch();
 
   const { data, isPending, isSuccess, isError, error, mutateAsync } =
@@ -36,8 +38,6 @@ export const ConfirmOrderButton = () => {
       setTimeout(() => mutateAsync(orderDetails), 500);
     }
   }
-
-  const router = useRouter();
 
   useEffect(() => {
     if (cartPrices) {

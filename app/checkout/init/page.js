@@ -1,3 +1,4 @@
+"use client";
 import { PriceDetailsList } from "@/components/client/cart";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
@@ -5,6 +6,7 @@ import ShieldIcon from "@mui/icons-material/Shield";
 import { CheckBoxes, PriceDetailsWrapper } from "@/components/client/checkout";
 import { ConfirmOrderButton } from "@/components/server/cart/confirmOrderButton";
 import { useSelector } from "react-redux";
+import AuthenticatedUser from "@/middlewares/IsAuthenticated";
 
 function Page() {
   return (
@@ -51,4 +53,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default AuthenticatedUser(Page);
