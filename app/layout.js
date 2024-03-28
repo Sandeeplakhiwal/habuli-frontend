@@ -9,6 +9,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import Head from "next/head";
+import Footer from "@/components/layout/footer";
 
 export const metadata = {
   title: "Habuli",
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
                 <>
                   <Header />
                   {children}
+                  <Footer />
                 </>
               </ThemeProvider>
             </ContextProvider>
