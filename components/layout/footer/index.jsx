@@ -30,6 +30,7 @@ function Footer() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: { md: "row", sm: "column", xs: "column" },
         }}
       >
         <Typography color={"#fff"} sx={{ fontWeight: 450, fontSize: 14 }}>
