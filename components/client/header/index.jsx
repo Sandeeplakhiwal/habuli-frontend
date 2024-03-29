@@ -24,12 +24,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { addToBuyNowCart } from "@/redux/slices/buyNowSlice";
 import { PageRoutes } from "@/constants/routes";
+import { useQuery } from "@tanstack/react-query";
+import { searchProductApi } from "@/api/product";
+import SearchResultsListBox from "./SearchResultsListBox";
+import { useRouter } from "next/navigation";
 
 function HeaderComponent() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
   const [initializedFromLocalStorage, setInitializedFromLocalStorage] =
     useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchProducts, setSearchProducts] = useState([]);
+
+  const router = useRouter();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -43,6 +51,44 @@ function HeaderComponent() {
   const { buyNowItems } = useSelector((state) => state.buynow);
 
   const dispatch = useDispatch();
+
+  console.log({ searchQuery });
+
+  const {
+    data: searchData,
+    error: searchError,
+    refetch: searchRefetch,
+    isSuccess: searchSuccess,
+    isLoading: searchLoading,
+  } = useQuery({
+    queryKey: ["search-product", searchQuery],
+    queryFn: searchProductApi,
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (searchSuccess && searchData) {
+      setSearchProducts(searchData.data?.products);
+      console.log(searchData.data);
+    }
+  }, [searchSuccess, searchData, searchError]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+    setTimeout(() => {
+      console.log("Searching...");
+      searchRefetch();
+    }, 500);
+  };
+
+  const handleSearch = (e) => {
+    console.log("Search Refetch");
+    if (e.key === "Enter") {
+      if (searchData && searchData.data?.productCount === 0) {
+        router.push(`${PageRoutes.PRODUCTNOTFOUND}/${searchQuery}`);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!initializedFromLocalStorage) {
@@ -81,6 +127,11 @@ function HeaderComponent() {
     localStorage.setItem("buyNowItems", JSON.stringify(buyNowItems));
   }, [buyNowItems]);
 
+  const handleSearchResultsListClick = () => {
+    setSearchQuery("");
+    setSearchProducts([]);
+  };
+
   return (
     <Box
       maxWidth={"xl"}
@@ -109,14 +160,32 @@ function HeaderComponent() {
               flex: 1,
             }}
           >
-            <Search style={{ width: "full", display: "flex", flex: 1 }}>
+            <Search
+              style={{
+                width: "full",
+                display: "flex",
+                flex: 1,
+                position: "relative",
+              }}
+            >
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search"
                 inputProps={{ "aria-label": "search" }}
+                onChange={(e) => handleSearchInputChange(e)}
+                value={searchQuery}
+                onKeyPress={(e) => handleSearch(e)}
               />
+              {searchProducts.length > 0 && searchQuery && (
+                <SearchResultsListBox
+                  searchProducts={searchProducts}
+                  handleLinkClick={handleSearchResultsListClick}
+                  searchQuery={searchQuery}
+                  notFound={searchData?.data?.productCount === 0 ? true : false}
+                />
+              )}
             </Search>
           </Box>
           <Box sx={{ display: { sm: "none", xs: "flex" }, flex: 1 }} />
@@ -252,22 +321,32 @@ function HeaderComponent() {
           px: 1,
           bgcolor: "#6D258E",
         }}
-        minWidth={"320px"}
       >
         <Search
           style={{
             width: "full",
             display: "flex",
             margin: "0 8px",
+            position: "relative",
           }}
         >
           <StyledInputBase
             placeholder="Search"
             inputProps={{ "aria-label": "search" }}
+            onChange={(e) => handleSearchInputChange(e)}
+            value={searchQuery}
           />
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
+          {searchProducts.length > 0 && searchQuery && (
+            <SearchResultsListBox
+              searchProducts={searchProducts}
+              handleLinkClick={handleSearchResultsListClick}
+              searchQuery={searchQuery}
+              notFound={searchData?.data?.productCount === 0 ? true : false}
+            />
+          )}
         </Search>
       </Box>
     </Box>
@@ -303,7 +382,7 @@ const LogoText = styled(Link)(({ theme }) => ({
 }));
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  borderRadius: theme.shape.borderRadius,
+  // borderRadius: theme.shape.borderRadius,
   backgroundColor: "#fff",
   "&:hover": {
     backgroundColor: "#fff",

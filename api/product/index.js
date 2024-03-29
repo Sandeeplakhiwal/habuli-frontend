@@ -20,3 +20,10 @@ export const getFilteredProductsApi = (category) => {
     withCredentials: true,
   });
 };
+
+export const searchProductApi = ({ queryKey }) => {
+  const keyword = queryKey[1];
+  return axios.get(`${server}/products?keyword=${keyword}`, {
+    withCredentials: true,
+  });
+};

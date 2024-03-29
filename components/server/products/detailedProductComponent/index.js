@@ -85,7 +85,7 @@ function DetailedProductComponent() {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
       </Head>
-      <Box maxWidth={"xl"} mx={"auto"}>
+      <Box maxWidth={"xl"} mx={"auto"} minWidth={"320px"}>
         <Grid
           container
           spacing={1}

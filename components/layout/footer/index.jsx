@@ -7,7 +7,12 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 
 function Footer() {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column" }}
+      maxWidth={"xl"}
+      mx={"auto"}
+      minWidth={"320px"}
+    >
       <Box sx={{ bgcolor: "#2b333f" }}>
         <Link component={NextLink} href={"/"} sx={{ textDecoration: "none" }}>
           <Button
