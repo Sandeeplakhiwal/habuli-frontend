@@ -52,8 +52,6 @@ function HeaderComponent() {
 
   const dispatch = useDispatch();
 
-  console.log({ searchQuery });
-
   const {
     data: searchData,
     error: searchError,
@@ -69,23 +67,24 @@ function HeaderComponent() {
   useEffect(() => {
     if (searchSuccess && searchData) {
       setSearchProducts(searchData.data?.products);
-      console.log(searchData.data);
     }
   }, [searchSuccess, searchData, searchError]);
 
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
     setTimeout(() => {
-      console.log("Searching...");
       searchRefetch();
     }, 500);
   };
 
   const handleSearch = (e) => {
-    console.log("Search Refetch");
     if (e.key === "Enter") {
       if (searchData && searchData.data?.productCount === 0) {
         router.push(`${PageRoutes.PRODUCTNOTFOUND}/${searchQuery}`);
+      }
+      if (searchData && searchData.data?.productCount > 0) {
+        router.push(`${PageRoutes.SEARCHED}/${searchQuery}`);
+        setSearchProducts([]);
       }
     }
   };
@@ -335,6 +334,7 @@ function HeaderComponent() {
             inputProps={{ "aria-label": "search" }}
             onChange={(e) => handleSearchInputChange(e)}
             value={searchQuery}
+            onKeyPress={(e) => handleSearch(e)}
           />
           <SearchIconWrapper>
             <SearchIcon />
